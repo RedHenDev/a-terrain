@@ -2,7 +2,8 @@
 <html>
 <head>
     <title>Procedural Terrain</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aframe/1.4.2/aframe.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/aframe/1.4.2/aframe.min.js"></script> -->
+    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
     <script>
         // Perlin noise implementation (same as before)
         const noise = {
@@ -66,6 +67,7 @@
             }
         };
 
+        /*
         // Auxiliary function to get terrain height at any point.
         function getTerrainHeight(x, z) {
             const xCoord = x * 0.05;
@@ -82,19 +84,67 @@
             }
             
             return height;
+        }*/
+
+        function getTerrainHeight(x, z) {
+            const xCoord = x * 0.05;  // Base frequency - try 0.03 for wider features or 0.08 for tighter
+            const zCoord = z * 0.05;
+            
+            // Base terrain with multiple layers
+            let height = 0;
+            
+            // Large features (mountains and valleys)
+            height += noise.noise(xCoord * 0.05, 0, zCoord * 0.05) * 24;  // Increased from 10
+            
+            // Medium features (hills)
+            height += noise.noise(xCoord * 1, 0, zCoord * 1) * 12;  // New medium scale
+            
+            // Small features (rough terrain)
+            height += noise.noise(xCoord * 2, 0, zCoord * 2) * 6;
+            
+            // Micro features (texture)
+            height += noise.noise(xCoord * 4, 0, zCoord * 4) * 3;
+            
+            // Mountain generation with more variation
+            const mountainNoise = noise.noise(xCoord * 0.25, 0, zCoord * 0.25);
+            if (mountainNoise > 0.5) {
+                // Create more varied mountains.
+                const mountainHeight = (mountainNoise - 0.5) * 2; // 0 to 1
+                const mountainScale = 40 + noise.noise(xCoord * 0.1, 0, zCoord * 0.1) * 20;
+                height += mountainHeight * mountainScale;
+            }
+            
+            // Add plateaus.
+            const plateauNoise = noise.noise(xCoord * 0.15, 0, zCoord * 0.15);
+            if (plateauNoise > 0.7) {
+                const plateauHeight = 15;
+                const plateauBlend = (plateauNoise - 0.7) * 3.33; // 0 to 1
+                height = height * (1 - plateauBlend) + plateauHeight * plateauBlend;
+            }
+            
+            // Add valleys/canyons.
+            const valleyNoise = noise.noise(xCoord * 0.2, 0, zCoord * 0.2);
+            if (valleyNoise < 0.2) {
+                const valleyDepth = -10;
+                const valleyBlend = (0.2 - valleyNoise) * 5; // 0 to 1
+                height *= (1 - valleyBlend * 0.8);
+            }
+            
+            return height;
         }
 
-        // Terrain generator component
+        // Terrain generator component.
         AFRAME.registerComponent('terrain-generator', {
             schema: {
-                chunk: {type: 'vec2'} // Current chunk coordinates
+                chunk: {type: 'vec2'} // Current chunk coordinates.
             },
 
             init: function() {
                 noise.init();
                 this.chunks = new Map(); // Store generated chunks.
-                this.generateChunk(0, 0);
-                this.chunkSize=128;
+                // Start at 1,1 not 0,0, else gap behind subject.
+                this.generateChunk(-99, 999);
+                this.chunkSize=102;
             },
 
             generateChunk: function(chunkX, chunkZ) {
@@ -154,7 +204,6 @@
                 const player = document.querySelector('#player').object3D;
                 const chunkSize = this.chunkSize;
                 
-                
                 // Calculate current chunk.
                 const chunkX = Math.floor(player.position.x / chunkSize);
                 const chunkZ = Math.floor(player.position.z / chunkSize);
@@ -180,15 +229,16 @@
             }
         });
 
-        // Player movement component with terrain following
+        // Player movement component with terrain following.
         AFRAME.registerComponent('terrain-movement', {
             schema: {
-                height: {type: 'number', default: 2} // Height above ground
+                height: {type: 'number', default: 2} // Height above ground.
             },
 
             init: function() {
                 this.velocity = new THREE.Vector3();
                 this.targetY = 0;
+                this.fov=80;
                 
                 // Setup key listeners for smoother movement
                 this.keys = {
@@ -199,11 +249,23 @@
                     w: false,
                     s: false,
                     a: false,
-                    d: false
+                    d: false,
+                    ShiftLeft: false
                 };
                 
                 document.addEventListener('keydown', (e) => this.keys[e.key] = true);
                 document.addEventListener('keyup', (e) => this.keys[e.key] = false);
+                // Also listen for shift key...
+                document.addEventListener('keydown', (e) => {
+                    if (e.code === 'ShiftLeft') {
+                        this.keys.ShiftLeft = true;
+                    }
+                });
+                document.addEventListener('keyup', (e) => {
+                    if (e.code === 'ShiftLeft') {
+                        this.keys.ShiftLeft = false;
+                    }
+                });
             },
 
             tick: function(time, delta) {
@@ -224,7 +286,14 @@
                 // Apply movement in camera direction.
                 if (moveX !== 0 || moveZ !== 0) {
                     const angle = rotation.y;
-                    const speed = 5;
+                    let run_speed=1;
+                    document.querySelector("#cam").setAttribute("fov",`${this.fov-=0.5}`);
+                    if (this.fov<80)this.fov=80;
+                    if (this.keys.ShiftLeft) { run_speed = 5;
+                        document.querySelector("#cam").setAttribute("fov",`${this.fov+=0.1}`);
+                        if (this.fov>120)this.fov=120;
+                    } 
+                    const speed = 5 * run_speed;
                     this.velocity.x = (-moveZ * Math.sin(angle) + moveX * Math.cos(angle)) * speed;
                     this.velocity.z = (-moveZ * Math.cos(angle) - moveX * Math.sin(angle)) * speed;
                 } else {
@@ -247,10 +316,10 @@
     </script>
 </head>
 <body>
-    <a-scene>
+    <a-scene fog="type: linear; color: #0AA;">
         <!-- Player with terrain following -->
-        <a-entity id="player" position="0 5 0" terrain-movement="height: 2">
-            <a-camera wasd-controls="enabled: false" look-controls></a-camera>
+        <a-entity id="player" position="0 25 0" terrain-movement="height: 2">
+            <a-camera id="cam" wasd-controls="enabled: false" look-controls></a-camera>
         </a-entity>
 
         <!-- Terrain -->
