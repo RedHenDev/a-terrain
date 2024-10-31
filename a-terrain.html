@@ -77,8 +77,8 @@
             height += noise.noise(xCoord * 4, 0, zCoord * 4) * 2.5;
             
             // Rare mountains.
-            if (noise.noise(xCoord * 0.5, 0, zCoord * 0.5) > 0.7) {
-                height *= 3;
+            if (noise.noise(xCoord * 0.5, 0, zCoord * 0.5) > 0.5) {
+                height *= 5;
             }
             
             return height;
@@ -94,10 +94,11 @@
                 noise.init();
                 this.chunks = new Map(); // Store generated chunks.
                 this.generateChunk(0, 0);
+                this.chunkSize=128;
             },
 
             generateChunk: function(chunkX, chunkZ) {
-                const chunkSize = 50;
+                const chunkSize = this.chunkSize;
                 const resolution = 1;
                 const vertices = [];
                 const indices = [];
@@ -116,7 +117,7 @@
                     }
                 }
 
-                // Generate indices
+                // Generate indices.
                 const verticesPerRow = chunkSize / resolution;
                 for (let z = 0; z < verticesPerRow - 1; z++) {
                     for (let x = 0; x < verticesPerRow - 1; x++) {
@@ -151,7 +152,8 @@
 
             tick: function() {
                 const player = document.querySelector('#player').object3D;
-                const chunkSize = 50;
+                const chunkSize = this.chunkSize;
+                
                 
                 // Calculate current chunk.
                 const chunkX = Math.floor(player.position.x / chunkSize);
