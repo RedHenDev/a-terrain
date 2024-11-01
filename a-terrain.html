@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Procedural Terrain giant</title>
+    <title>Procedural Terrain colossal</title>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/aframe/1.4.2/aframe.min.js"></script> -->
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
     <script>
@@ -110,8 +110,9 @@
             const mountainNoise = noise.noise(xCoord * 0.25, 0, zCoord * 0.25);
             if (mountainNoise > 0.5) {
                 // Create more varied mountains.
+                // Default 40, not 160.
                 const mountainHeight = (mountainNoise - 0.5) * 2; // 0 to 1
-                const mountainScale = 40 + noise.noise(xCoord * 0.1, 0, zCoord * 0.1) * 20;
+                const mountainScale = 160 + noise.noise(xCoord * 0.1, 0, zCoord * 0.1) * 20;
                 height += mountainHeight * mountainScale;
             }
             
@@ -143,9 +144,10 @@
             init: function() {
                 noise.init();
                 this.chunks = new Map(); // Store generated chunks.
-                // Start at 1,1 not 0,0, else gap behind subject.
+                // Start at -99,999 not 0,0, else gap behind subject.
                 this.generateChunk(-99, 999);
-                this.chunkSize=102;
+                // Chunksize default 102, not 256.
+                this.chunkSize=84;
             },
 
             generateChunk: function(chunkX, chunkZ) {
@@ -210,6 +212,7 @@
                 const chunkZ = Math.floor(player.position.z / chunkSize);
                 
                 // Generate surrounding chunks if they don't exist.
+                // Default is 1, not 4.
                 for (let z = chunkZ - 4; z <= chunkZ + 4; z++) {
                     for (let x = chunkX - 4; x <= chunkX + 4; x++) {
                         const key = `${x},${z}`;
@@ -219,10 +222,10 @@
                     }
                 }
 
-                // Remove far chunks. Default value us 2, not 6.
+                // Remove far chunks. Default value us 2, not 5.
                 for (const [key, chunk] of this.chunks.entries()) {
                     const [x, z] = key.split(',').map(Number);
-                    if (Math.abs(x - chunkX) > 6 || Math.abs(z - chunkZ) > 6) {
+                    if (Math.abs(x - chunkX) > 5 || Math.abs(z - chunkZ) > 5) {
                         this.el.object3D.remove(chunk);
                         this.chunks.delete(key);
                     }

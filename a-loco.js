@@ -144,5 +144,8 @@ AFRAME.registerComponent('terrain-movement', {
         
         // Smoothly interpolate to target height.
         position.y += (this.targetY - position.y) * 0.1;
+        
+        // Prevent falling below present surface.
+        if (position.y < this.targetY) position.y = this.targetY;
     }
 });
