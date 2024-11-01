@@ -50,6 +50,13 @@ AFRAME.registerComponent('terrain-movement', {
         const rotation = this.cam.rotation;
         
         // Camera controls testing, for VR.
+        let moveZ;
+        if(AFRAME.utils.device.isMobile()){
+            const pitch=this.cam.rotation.x;
+            if (pitch<-0.03){
+                moveZ=1;
+            } else moveZ=0;
+        }
         /*
         // First, determine direction
         // from camera.
@@ -61,10 +68,12 @@ AFRAME.registerComponent('terrain-movement', {
         
         // Calculate movement direction.
         // Have negated sign of 1 here -- before, inverted movement bug.
-        const moveX = (this.keys.a || this.keys.ArrowLeft ? -1 : 0) + 
+        if(!AFRAME.utils.device.isMobile()){
+            moveX = (this.keys.a || this.keys.ArrowLeft ? -1 : 0) + 
                     (this.keys.d || this.keys.ArrowRight ? 1 : 0);
-        const moveZ = (this.keys.w || this.keys.ArrowUp ? 1 : 0) + 
+            moveZ = (this.keys.w || this.keys.ArrowUp ? 1 : 0) + 
                     (this.keys.s || this.keys.ArrowDown ? -1 : 0);
+        }
         
         // Apply movement in camera direction.
         if (moveX !== 0 || moveZ !== 0) {
