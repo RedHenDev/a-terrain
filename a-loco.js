@@ -53,8 +53,6 @@ AFRAME.registerComponent('terrain-movement', {
         const rotation = this.cam.rotation;
         
         // Camera controls testing, for VR (and mobile).
-        // let moveZ=0;
-        // let moveX=0;
         //if(AFRAME.utils.device.isMobile()){
             const pitch=this.cam.rotation.x;
             const roll=this.cam.rotation.z;
@@ -143,9 +141,12 @@ AFRAME.registerComponent('terrain-movement', {
         this.targetY = terrainY + this.data.height;
         
         // Smoothly interpolate to target height.
-        position.y += (this.targetY - position.y) * 0.1;
-        
+        //position.y += (this.targetY - position.y) * 0.1;
+
+        // Pitch can affect y position...for flight :D
+        position.y += pitch * 0.07*Math.abs(this.velocity.z);
+
         // Prevent falling below present surface.
-        if (position.y < this.targetY) position.y = this.targetY;
+        if (position.y < this.targetY) position.y = terrainY + this.data.height;
     }
 });
