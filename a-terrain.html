@@ -238,6 +238,13 @@
 </head>
 <body>
     <a-scene fog="type: linear; color: #0AA; far:320;">
+
+        <!-- Our assets, such as the Monster Truck :) -->
+        <a-assets>
+            <a-asset-item id="grave-digger" src="graveDigger.obj"></a-asset-item>
+        </a-assets>
+
+
         <!-- Player with terrain following -->
         <a-entity id="player" position="0 25 0" terrain-movement="height: 2">
             <a-camera id="cam" wasd-controls="enabled: false" look-controls></a-camera>
@@ -247,6 +254,11 @@
 
         <!-- Terrain -->
         <a-entity terrain-generator></a-entity>
+
+        <!-- A Monster Truck! -->
+        <a-obj-model src="#grave-digger" scale="3 3 3" color="pink"></a-obj-model>
+
+        <a-obj-model src="#grave-digger" position ="-32 0 0" scale="0.3 0.3 0.3" color="white"></a-obj-model>
 
         <!-- Lighting -->
         <a-light type="ambient" color="#888"></a-light>
