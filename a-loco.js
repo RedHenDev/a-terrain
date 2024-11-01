@@ -50,13 +50,16 @@ AFRAME.registerComponent('terrain-movement', {
         const rotation = this.cam.rotation;
         
         // Camera controls testing, for VR.
-        let moveZ;
+        let moveZ=0;
+        let moveX=0;
         if(AFRAME.utils.device.isMobile()){
             const pitch=this.cam.rotation.x;
-            if (pitch<-0.03){
+            //console.log(pitch)
+            if (pitch < -0.33 && pitch > -0.47){
                 moveZ=1;
             } else moveZ=0;
         }
+
         /*
         // First, determine direction
         // from camera.
