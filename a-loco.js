@@ -11,6 +11,7 @@ AFRAME.registerComponent('terrain-movement', {
         this.fov=80;
         this.cam=document.querySelector("#cam").object3D;
         this.rig=document.querySelector("#player").object3D;
+        this.timeStamp=Date.now();
         
         // Setup key listeners for smoother movement
         this.keys = {
@@ -49,15 +50,37 @@ AFRAME.registerComponent('terrain-movement', {
         //const rotation = document.querySelector('[camera]').object3D.rotation;
         const rotation = this.cam.rotation;
         
-        // Camera controls testing, for VR.
+        // Camera controls testing, for VR (and mobile).
         let moveZ=0;
         let moveX=0;
         if(AFRAME.utils.device.isMobile()){
-            const pitch=this.cam.rotation.x;
-            //console.log(pitch)
-            if (pitch < -0.33 && pitch > -0.47){
-                moveZ=1;
-            } else moveZ=0;
+            //const pitch=this.cam.rotation.x;
+            const roll=this.cam.rotation.z;
+            //console.log(pitch);
+            // if (pitch < -0.33 && pitch > -0.47){
+            //     moveZ=1;
+            // } else moveZ=0;
+
+            // Let's try a toggle.
+            const minZ=2.5;  // Default 0.2.
+			const maxZ=2.75; // Default 0.4.
+                if ((roll > minZ && roll < maxZ)){
+            // Log time stamp. This will be for
+            // toggling via head z rotations.
+            let cTime = Date.now();
+            if (cTime-this.timeStamp > 2000){
+                //toggleAttempt=false;
+                //this.hark.components.sound.playSound();
+                //this.engineOn=!this.engineOn;
+                //this.data.engine=!this.data.engine;
+                // Update to sort reticle colour.
+                //this.update();
+                this.timeStamp=Date.now();
+                if(moveZ==1) moveZ=0;
+                else moveZ=1;
+                
+            }
+        }
         }
 
         /*
