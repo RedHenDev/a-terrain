@@ -44,7 +44,7 @@ AFRAME.registerComponent('terrain-movement', {
     tick: function(time, delta) {
         if (!delta) return;
 
-        delta = delta * 0.001; // Convert to seconds
+        delta = delta * 0.001; // Convert to seconds.
         
         const position = this.el.object3D.position;
         //const rotation = document.querySelector('[camera]').object3D.rotation;
@@ -53,20 +53,22 @@ AFRAME.registerComponent('terrain-movement', {
         // Camera controls testing, for VR (and mobile).
         let moveZ=0;
         let moveX=0;
-        if(AFRAME.utils.device.isMobile()){
-            //const pitch=this.cam.rotation.x;
+        //if(AFRAME.utils.device.isMobile()){
+            const pitch=this.cam.rotation.x;
             const roll=this.cam.rotation.z;
-            //console.log(pitch);
+            //console.log(roll + ' ' + pitch);
             // if (pitch < -0.33 && pitch > -0.47){
             //     moveZ=1;
             // } else moveZ=0;
 
             // Let's try a toggle.
-            const minZ=2.5;  // Default 0.2.
-			const maxZ=2.75; // Default 0.4.
+            const minZ=0.3;  // Default 0.2.
+			const maxZ=0.5; // Default 0.4.
                 if ((roll > minZ && roll < maxZ)){
+                    console.log('rooling?');
             // Log time stamp. This will be for
             // toggling via head z rotations.
+            // Have 2s elapsed?
             let cTime = Date.now();
             if (cTime-this.timeStamp > 2000){
                 //toggleAttempt=false;
@@ -75,12 +77,13 @@ AFRAME.registerComponent('terrain-movement', {
                 //this.data.engine=!this.data.engine;
                 // Update to sort reticle colour.
                 //this.update();
+                // Toggle locomotion.
                 this.timeStamp=Date.now();
                 if(moveZ==1) moveZ=0;
                 else moveZ=1;
                 
             }
-        }
+        //}
         }
 
         /*
