@@ -12,6 +12,8 @@ AFRAME.registerComponent('terrain-movement', {
         this.cam=document.querySelector("#cam").object3D;
         this.rig=document.querySelector("#player").object3D;
         this.timeStamp=Date.now();
+        this.moveZ=0;
+        this.moveX=0;
         
         // Setup key listeners for smoother movement
         this.keys = {
@@ -51,8 +53,8 @@ AFRAME.registerComponent('terrain-movement', {
         const rotation = this.cam.rotation;
         
         // Camera controls testing, for VR (and mobile).
-        let moveZ=0;
-        let moveX=0;
+        // let moveZ=0;
+        // let moveX=0;
         //if(AFRAME.utils.device.isMobile()){
             const pitch=this.cam.rotation.x;
             const roll=this.cam.rotation.z;
@@ -79,8 +81,8 @@ AFRAME.registerComponent('terrain-movement', {
                 //this.update();
                 // Toggle locomotion.
                 this.timeStamp=Date.now();
-                if(moveZ==1) moveZ=0;
-                else moveZ=1;
+                if(this.moveZ==1) this.moveZ=0;
+                else this.moveZ=1;
                 
             }
         //}
@@ -98,20 +100,26 @@ AFRAME.registerComponent('terrain-movement', {
         // Calculate movement direction.
         // Have negated sign of 1 here -- before, inverted movement bug.
         if(!AFRAME.utils.device.isMobile()){
-            moveX = (this.keys.a || this.keys.ArrowLeft ? -1 : 0) + 
-                    (this.keys.d || this.keys.ArrowRight ? 1 : 0);
-            moveZ = (this.keys.w || this.keys.ArrowUp ? 1 : 0) + 
-                    (this.keys.s || this.keys.ArrowDown ? -1 : 0);
+            
+            this.moveX =    (this.keys.a || this.keys.ArrowLeft ? -1 : 0) + 
+                            (this.keys.d || this.keys.ArrowRight ? 1 : 0);
+            this.moveZ =    (this.keys.w || this.keys.ArrowUp ? 1 : 0) + 
+                            (this.keys.s || this.keys.ArrowDown ? -1 : 0);
         }
         
+        // Return fov to normal, i.e. not running.
+        if (this.fov<80){this.fov=80;}
+        else {document.querySelector("#cam").setAttribute("fov",`${this.fov-=0.5}`);}
+
         // Apply movement in camera direction.
-        if (moveX !== 0 || moveZ !== 0) {
+        if (this.moveX !== 0 || this.moveZ !== 0) {
             const angle = rotation.y;
             let run_speed=1;
-            document.querySelector("#cam").setAttribute("fov",`${this.fov-=0.5}`);
+            
             // Light change test.
             document.querySelector("#blinky").setAttribute("intensity",'0.8');
-            if (this.fov<80)this.fov=80;
+            
+            // Running!
             if (this.keys.ShiftLeft) { run_speed = 5;
                 document.querySelector("#cam").setAttribute("fov",`${this.fov+=0.6}`);
                 if (this.fov>120)this.fov=120;
@@ -119,8 +127,8 @@ AFRAME.registerComponent('terrain-movement', {
                 document.querySelector("#blinky").setAttribute("intensity",'0.1');
             } 
             const speed = 5 * run_speed;
-            this.velocity.x = (-moveZ * Math.sin(angle) + moveX * Math.cos(angle)) * speed;
-            this.velocity.z = (-moveZ * Math.cos(angle) - moveX * Math.sin(angle)) * speed;
+            this.velocity.x = (-this.moveZ * Math.sin(angle) + this.moveX * Math.cos(angle)) * speed;
+            this.velocity.z = (-this.moveZ * Math.cos(angle) - this.moveX * Math.sin(angle)) * speed;
         } else {
             this.velocity.x *= 0.9;
             this.velocity.z *= 0.9;
