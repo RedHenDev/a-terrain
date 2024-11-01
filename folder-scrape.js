@@ -2,7 +2,7 @@ async function loadLocalImageFiles() {
     try {
         // Get the current script's path
         //const scriptPath = document.currentScript.src;
-        const scriptPath="/";
+        const scriptPath="./";
         const baseUrl = scriptPath.substring(0, scriptPath.lastIndexOf('/') + 1);
 
         // Attempt to fetch the directory listing.
@@ -53,6 +53,7 @@ async function setupImageAssets() {
         plane.setAttribute('width', '200');
         plane.setAttribute('height', '200');
         plane.setAttribute('material', 'side: double');
+        plane.setAttribute('crossorigin', 'local');
         scene.appendChild(plane);
     });
 
