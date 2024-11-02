@@ -137,3 +137,29 @@ AFRAME.registerComponent('terrain-movement', {
         if (position.y < this.targetY) position.y = terrainY + this.data.height;
     }
 });
+
+
+AFRAME.registerComponent('keyboard-roll', {
+    init: function() {
+        this.camera = this.el.getObject3D('camera');
+        
+        window.addEventListener('keydown', (e) => {
+            if (!this.camera) return;
+            
+            switch(e.key) {
+                case 'q':  // Roll left
+                    this.camera.rotation.z += 0.057;  // radians
+                    //console.log(this.camera.rotation.z);
+                    break;
+                case 'e':  // Roll right
+                    this.camera.rotation.z -= 0.057;  // radians
+                    //console.log(this.camera.rotation.z);
+                    break;
+                case 'r':  // Reset roll
+                    this.camera.rotation.z = 0;
+                    //console.log(this.camera.rotation.z);
+                    break;
+            }
+        });
+    }
+});
