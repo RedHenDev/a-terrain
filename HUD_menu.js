@@ -16,7 +16,7 @@ AFRAME.registerComponent('follow-camera', {
     
     this.el.object3D.position.copy(worldPos).add(cameraDirection.multiplyScalar(distance));
     
-    // Make HUD face camera
+    // Make HUD face camera.
     this.el.object3D.lookAt(worldPos);
   }
 });
@@ -57,10 +57,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (scene) {
         console.log('HUD ready and waiting...');
         document.querySelector('#b1').addEventListener('statechanged', (event) => {
-            console.log('Button state:', event.detail.state);
+            //console.log('Button state:', event.detail.state);
             const playerEl = document.querySelector('#player');
             const tmc = playerEl.components['terrain-movement'];
             tmc.running=!tmc.running;
+        });
+        document.querySelector('#b2').addEventListener('statechanged', (event) => {
+            //console.log('Button state:', event.detail.state);
+            const playerEl = document.querySelector('#player');
+            const tmc = playerEl.components['terrain-movement'];
+            tmc.flying=!tmc.flying;
         });
     }
 });

@@ -16,6 +16,7 @@ AFRAME.registerComponent('terrain-movement', {
         this.moveX=0;
 
         this.running=false;
+        this.flying=false;
         this.hud=document.querySelector("#hud").object3D;
         
         // Setup key listeners for smoother movement
@@ -53,17 +54,20 @@ AFRAME.registerComponent('terrain-movement', {
         
         const position = this.rig.position;
         const rotation = this.cam.rotation;
+
+        document.querySelector('#hud-text').setAttribute(
+            'value',`${Math.floor(position.x*0.01)} ${Math.floor(position.z*0.01)}`);
         
         // Camera controls testing, for VR (and mobile).
         //if(AFRAME.utils.device.isMobile()){
             const pitch=this.cam.rotation.x;
             const roll=this.cam.rotation.z;
 
-            // Let's try a toggle.
+            // Let's try a toggle left.
             const minZ=0.3;  // Default 0.2.
 			const maxZ=0.5; // Default 0.4.
                 if ((roll > minZ && roll < maxZ)){
-                    console.log('rooling?');
+                    //console.log('rooling?');
             // Log time stamp. This will be for
             // toggling via head z rotations.
             // Have 2s elapsed?
@@ -74,29 +78,31 @@ AFRAME.registerComponent('terrain-movement', {
                 this.timeStamp=Date.now();
                 if(this.moveZ==1) this.moveZ=0;
                 else this.moveZ=1;
+
+                // 
+                const bud = document.createElement('a-box');
+                bud.object3D.position=this.cam.position;
+                document.querySelector('#scene').appendChild(bud);
                 
             }
         //}
         }
 
-         // Let's try a toggle to the right.
-         const RminZ=-0.3;  
-         const RmaxZ=-0.5;
-             if ((roll > RminZ && roll < RmaxZ)||this.keys.d){
-                 console.log('right toggle!');
+        // Let's try a toggle to the right.
+        const RminZ=-0.3;  
+        const RmaxZ=-0.5;
+         //document.querySelector('#hud-text').setAttribute('value',`${roll}`);
+        if ((roll < RminZ && roll > RmaxZ)||this.keys.d){
+            //console.log('right toggle!');
          // Log time stamp. This will be for
          // toggling via head z rotations.
          // Have 2s elapsed?
-         let cTime = Date.now();
-         if (cTime-this.timeStamp > 2000){
-         
-             // Toggle locomotion.
-             this.timeStamp=Date.now();
-             this.hud.visible=!this.hud.visible;
-             
-         }
-     //}
-     }
+            let cTime = Date.now();
+            if (cTime-this.timeStamp > 2000){
+                this.timeStamp=Date.now();
+                this.hud.visible=!this.hud.visible;
+            }
+        }
 
         
         // Calculate movement direction.
@@ -107,15 +113,17 @@ AFRAME.registerComponent('terrain-movement', {
                             (this.keys.d || this.keys.ArrowRight ? 1 : 0);
             this.moveZ =    (this.keys.w || this.keys.ArrowUp ? 1 : 0) + 
                             (this.keys.s || this.keys.ArrowDown ? -1 : 0);
+
+            // Are we running? Toggle.
+            if (this.keys.ShiftLeft) this.running=!this.running;
         }
         
-        // Are we running?
-        // if (this.keys.ShiftLeft) this.running=true;
-        // else this.running=false;
 
         // Return fov to normal, i.e. not running.
-        if (this.fov<80){this.fov=80;}
-        else {document.querySelector("#cam").setAttribute("fov",`${this.fov-=0.5}`);}
+        
+            if (this.fov<80){this.fov=80;}
+            else {document.querySelector("#cam").setAttribute("fov",`${this.fov-=0.5}`);}
+        
 
         // Apply movement in camera direction.
         if (this.moveX !== 0 || this.moveZ !== 0) {
@@ -123,14 +131,14 @@ AFRAME.registerComponent('terrain-movement', {
             let run_speed=1;
             
             // Light change test.
-            document.querySelector("#blinky").setAttribute("intensity",'0.8');
+            document.querySelector("#blinky").setAttribute("color",'#FFF');
             
             // Running!
-            if (this.running) { run_speed = 5;
+            if (this.running) { run_speed = 15;
                 document.querySelector("#cam").setAttribute("fov",`${this.fov+=0.6}`);
                 if (this.fov>120)this.fov=120;
                 // Light change test.
-                document.querySelector("#blinky").setAttribute("intensity",'0.1');
+                document.querySelector("#blinky").setAttribute("color",'#FF0');
             } 
             const speed = 5 * run_speed;
             this.velocity.x = (-this.moveZ * Math.sin(angle) + this.moveX * Math.cos(angle)) * speed;
@@ -148,11 +156,15 @@ AFRAME.registerComponent('terrain-movement', {
         const terrainY = getTerrainHeight(position.x, position.z);
         this.targetY = terrainY + this.data.height;
         
-        // Smoothly interpolate to target height.
-        //position.y += (this.targetY - position.y) * 0.1;
+        
 
-        // Pitch can affect y position...for flight :D
-        position.y += pitch * 0.07*Math.abs(this.velocity.z);
+        if (this.flying){
+            // Pitch can affect y position...for flight :D
+            position.y += pitch * 0.1 * Math.abs(this.velocity.z);
+        } else {
+            // Smoothly interpolate to target height.
+            position.y += (this.targetY - position.y) * 0.1;
+        }
 
         // Prevent falling below present surface.
         if (position.y < this.targetY) position.y = terrainY + this.data.height;
