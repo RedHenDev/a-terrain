@@ -1,7 +1,7 @@
 // Player movement component with terrain following.
 AFRAME.registerComponent('terrain-movement', {
     schema: {
-        height: {type: 'number', default: 2} // Height above ground.
+        height: {type: 'number', default: 0.2} // Height above ground.
     },
 
     init: function() {
@@ -14,6 +14,8 @@ AFRAME.registerComponent('terrain-movement', {
         this.timeStamp=Date.now();
         this.moveZ=0;
         this.moveX=0;
+
+        this.running=false;
         
         // Setup key listeners for smoother movement
         this.keys = {
@@ -48,18 +50,13 @@ AFRAME.registerComponent('terrain-movement', {
 
         delta = delta * 0.001; // Convert to seconds.
         
-        const position = this.el.object3D.position;
-        //const rotation = document.querySelector('[camera]').object3D.rotation;
+        const position = this.rig.position;
         const rotation = this.cam.rotation;
         
         // Camera controls testing, for VR (and mobile).
         //if(AFRAME.utils.device.isMobile()){
             const pitch=this.cam.rotation.x;
             const roll=this.cam.rotation.z;
-            //console.log(roll + ' ' + pitch);
-            // if (pitch < -0.33 && pitch > -0.47){
-            //     moveZ=1;
-            // } else moveZ=0;
 
             // Let's try a toggle.
             const minZ=0.3;  // Default 0.2.
@@ -71,12 +68,7 @@ AFRAME.registerComponent('terrain-movement', {
             // Have 2s elapsed?
             let cTime = Date.now();
             if (cTime-this.timeStamp > 2000){
-                //toggleAttempt=false;
-                //this.hark.components.sound.playSound();
-                //this.engineOn=!this.engineOn;
-                //this.data.engine=!this.data.engine;
-                // Update to sort reticle colour.
-                //this.update();
+            
                 // Toggle locomotion.
                 this.timeStamp=Date.now();
                 if(this.moveZ==1) this.moveZ=0;
@@ -85,15 +77,6 @@ AFRAME.registerComponent('terrain-movement', {
             }
         //}
         }
-
-        /*
-        // First, determine direction
-        // from camera.
-        const theta=this.cam.rotation.y;
-        // NB these two reversed.
-        const pitch=this.cam.rotation.x;
-        this.rig.position.y += pitch*1;
-        */
         
         // Calculate movement direction.
         // Have negated sign of 1 here -- before, inverted movement bug.
@@ -105,6 +88,10 @@ AFRAME.registerComponent('terrain-movement', {
                             (this.keys.s || this.keys.ArrowDown ? -1 : 0);
         }
         
+        // Are we running?
+        if (this.keys.ShiftLeft) this.running=true;
+        else this.running=false;
+
         // Return fov to normal, i.e. not running.
         if (this.fov<80){this.fov=80;}
         else {document.querySelector("#cam").setAttribute("fov",`${this.fov-=0.5}`);}
@@ -118,7 +105,7 @@ AFRAME.registerComponent('terrain-movement', {
             document.querySelector("#blinky").setAttribute("intensity",'0.8');
             
             // Running!
-            if (this.keys.ShiftLeft) { run_speed = 5;
+            if (this.running) { run_speed = 5;
                 document.querySelector("#cam").setAttribute("fov",`${this.fov+=0.6}`);
                 if (this.fov>120)this.fov=120;
                 // Light change test.

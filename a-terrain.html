@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Procedural Terrain albatross</title>
+    <title>Procedural Terrain swallow</title>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/aframe/1.4.2/aframe.min.js"></script> -->
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
     <script>
@@ -268,31 +268,33 @@
 
 </head>
 <body>
-    <a-scene fog="type: linear; color: #0AA; far:320;">
+    <!-- fog="type: linear; color: #0AA; far:320;" -->
+    <a-scene fog="type: linear; color: #0FA; far:364;">
 
         <!-- <script src="folder-scrape.js"></script> -->
         <script src="auto_gallery.js"></script>
 
-        <!-- Our assets, such as the Monster Truck :) -->
         <a-assets>
-            <!-- <a-asset-item id="grave-digger" src="graveDigger.obj"></a-asset-item> -->
+        <!-- Preload our assets, such as the Monster Truck :) -->
+            <a-asset-item id="grave-digger" src="graveDigger.obj"></a-asset-item>
         </a-assets>
 
 
         <!-- Player with terrain following -->
-        <a-entity id="player" position="0 25 0" terrain-movement="height: 2">
-            <a-camera id="cam" wasd-controls="enabled: false" look-controls keyboard-roll></a-camera>
+        <a-entity id="player" position="0 25 0" terrain-movement="height: 0.2">
+            <a-camera id="cam" wasd-controls="enabled: false" look-controls></a-camera>
             <!-- Sky color="#87CEEB"-->
-        <a-sky color="#87CEEB" > </a-sky>
+        <a-sky color="#0AF" > </a-sky>
         </a-entity>
 
         <!-- Terrain -->
         <a-entity terrain-generator></a-entity>
 
-        <!-- A Monster Truck! -->
-        <!-- <a-obj-model src="#grave-digger" scale="3 3 3" color="pink"></a-obj-model>
 
-        <a-obj-model src="#grave-digger" position ="64 1.8 -42" scale="0.03 0.03 0.03" color="white"></a-obj-model> -->
+        <!-- A Monster Truck! -->
+        <a-obj-model src="#grave-digger" scale="3 3 3" color="pink"></a-obj-model>
+
+        <a-obj-model src="#grave-digger" position ="64 1.8 -42" scale="0.03 0.03 0.03" color="white"></a-obj-model>
 
         <!-- Lighting -->
         <a-light type="ambient" color="#888"></a-light>
