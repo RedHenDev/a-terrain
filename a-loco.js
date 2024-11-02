@@ -16,6 +16,7 @@ AFRAME.registerComponent('terrain-movement', {
         this.moveX=0;
 
         this.running=false;
+        this.hud=document.querySelector("#hud").object3D;
         
         // Setup key listeners for smoother movement
         this.keys = {
@@ -77,6 +78,26 @@ AFRAME.registerComponent('terrain-movement', {
             }
         //}
         }
+
+         // Let's try a toggle to the right.
+         const RminZ=-0.3;  
+         const RmaxZ=-0.5;
+             if ((roll > RminZ && roll < RmaxZ)||this.keys.d){
+                 console.log('right toggle!');
+         // Log time stamp. This will be for
+         // toggling via head z rotations.
+         // Have 2s elapsed?
+         let cTime = Date.now();
+         if (cTime-this.timeStamp > 2000){
+         
+             // Toggle locomotion.
+             this.timeStamp=Date.now();
+             this.hud.visible=!this.hud.visible;
+             
+         }
+     //}
+     }
+
         
         // Calculate movement direction.
         // Have negated sign of 1 here -- before, inverted movement bug.
@@ -89,8 +110,8 @@ AFRAME.registerComponent('terrain-movement', {
         }
         
         // Are we running?
-        if (this.keys.ShiftLeft) this.running=true;
-        else this.running=false;
+        // if (this.keys.ShiftLeft) this.running=true;
+        // else this.running=false;
 
         // Return fov to normal, i.e. not running.
         if (this.fov<80){this.fov=80;}
