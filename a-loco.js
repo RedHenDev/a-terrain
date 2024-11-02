@@ -79,10 +79,10 @@ AFRAME.registerComponent('terrain-movement', {
                 if(this.moveZ==1) this.moveZ=0;
                 else this.moveZ=1;
 
-                // 
-                const bud = document.createElement('a-box');
-                bud.object3D.position=this.cam.position;
-                document.querySelector('#scene').appendChild(bud);
+                // Build testing...
+                // const bud = document.createElement('a-box');
+                // bud.object3D.position=position;
+                // document.querySelector('#scene').appendChild(bud);
                 
             }
         //}

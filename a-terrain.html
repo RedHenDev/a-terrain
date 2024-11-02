@@ -87,8 +87,9 @@
         }*/
 
         function getTerrainHeight(x, z) {
-            const xCoord = x * 0.05;  // Base frequency - try 0.03 for wider features or 0.08 for tighter
-            const zCoord = z * 0.05;
+            // Default 0.05.
+            const xCoord = x * 0.06;  // Base frequency - try 0.03 for wider features or 0.08 for tighter
+            const zCoord = z * 0.06;
             
             // Base terrain with multiple layers
             let height = 0;
@@ -119,6 +120,7 @@
             // Add plateaus.
             const plateauNoise = noise.noise(xCoord * 0.15, 0, zCoord * 0.15);
             if (plateauNoise > 0.7) {
+                // Default 15, not 150.
                 const plateauHeight = 15;
                 const plateauBlend = (plateauNoise - 0.7) * 3.33; // 0 to 1
                 height = height * (1 - plateauBlend) + plateauHeight * plateauBlend;
