@@ -101,6 +101,8 @@ AFRAME.registerComponent('terrain-movement', {
             if (cTime-this.timeStamp > 2000){
                 this.timeStamp=Date.now();
                 this.hud.visible=!this.hud.visible;
+                // Note that the below pause() toggles itself :)
+                document.querySelector("#hud").pause();
             }
         }
 
