@@ -151,6 +151,28 @@ function getTerrainHeight(x, z) {
     return height;
 }
 
+// function getTerrainColor(height) {
+//     // Basic height-based coloring
+//     if (height < 0) return '#2039AA';     // Deep water
+//     if (height < 5) return '#3060FF';     // Shallow water
+//     if (height < 10) return '#DACAA0';    // Beach/Sand
+//     if (height < 30) return '#4CAF50';    // Grass/Plains
+//     if (height < 50) return '#276A29';    // Forest
+//     if (height < 70) return '#6B6B6B';    // Mountain
+//     return '#FFFFFF';                     // Snow peaks
+// }
+
+function getTerrainColor(height) {
+    // Basic height-based coloring
+    if (height < 0) return '#002900';     // Deep water
+    if (height < 5) return '#003800';     // Shallow water
+    if (height < 10) return '#004400';    // Beach/Sand
+    if (height < 30) return '#004800';    // Grass/Plains
+    if (height < 50) return '#005000';    // Forest
+    if (height < 70) return '#6B6B6B';    // Mountain
+    return '#FFFFFF';                     // Snow peaks
+}
+
 // Terrain generator component.
 AFRAME.registerComponent('terrain-generator', {
     schema: {
@@ -163,9 +185,9 @@ AFRAME.registerComponent('terrain-generator', {
         // Start at -99,999 not 0,0, else gap behind subject.
         this.generateChunk(-99, 999);
         // Chunksize default 50, not 88.
-        this.chunkSize=128;
+        this.chunkSize=64;
         // Default number of chunks to gen in one go is 1, not 4.
-        this.chunksToGen=4;
+        this.chunksToGen=3;
     },
 
     generateChunk: function(chunkX, chunkZ) {
@@ -202,15 +224,34 @@ AFRAME.registerComponent('terrain-generator', {
             }
         }
 
+        // Add colours.
+        const colors = [];
+        for (let i = 0; i < vertices.length; i += 3) {
+            const height = vertices[i + 1]; // Y coordinate is height
+            const color = new THREE.Color(getTerrainColor(height));
+            colors.push(color.r, color.g, color.b);
+        }
+        
         const geometry = new THREE.BufferGeometry();
         geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
         geometry.setIndex(indices);
         geometry.computeVertexNormals();
+        geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+        // const chunk = new THREE.Mesh(
+        //     geometry,
+        //     new THREE.MeshStandardMaterial({
+        //         color: '#4CAF50',
+        //         roughness: 0.8,
+        //         metalness: 0.2,
+        //         flatShading: true
+        //     })
+        // );
 
         const chunk = new THREE.Mesh(
             geometry,
             new THREE.MeshStandardMaterial({
-                color: '#4CAF50',
+                vertexColors: true,
                 roughness: 0.8,
                 metalness: 0.2,
                 flatShading: true
