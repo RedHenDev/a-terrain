@@ -68,6 +68,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const tmc = playerEl.components['terrain-movement'];
             tmc.flying=!tmc.flying;
         });
+        document.querySelector('#b3').addEventListener('statechanged', (event) => {
+          //console.log('Button state:', event.detail.state);
+          //const playerEl = document.querySelector('#urizen');
+          //const tmc = playerEl.components['terrain-movement'];
+          //tmc.flying=!tmc.flying;
+          ridge=!ridges;
+      });
     }
 });
 

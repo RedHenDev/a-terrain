@@ -104,6 +104,9 @@ AFRAME.registerComponent('terrain-movement', {
             }
         }
 
+        let run_speed=1;
+
+        
         
         // Calculate movement direction.
         // Have negated sign of 1 here -- before, inverted movement bug.
@@ -114,33 +117,45 @@ AFRAME.registerComponent('terrain-movement', {
             this.moveZ =    (this.keys.w || this.keys.ArrowUp ? 1 : 0) + 
                             (this.keys.s || this.keys.ArrowDown ? -1 : 0);
 
-            // Are we running? Toggle.
-            if (this.keys.ShiftLeft) this.running=!this.running;
-        }
-        
+            // Running toggle via shift.
+            let sTime = Date.now();
+            if (sTime-this.timeStamp > 500){
+                if (this.keys.ShiftLeft) {
+                    this.running=!this.running;
+                    this.timeStamp=Date.now();
+                }
+            }
+            
 
-        // Return fov to normal, i.e. not running.
+        } 
         
-            if (this.fov<80){this.fov=80;}
-            else {document.querySelector("#cam").setAttribute("fov",`${this.fov-=0.5}`);}
+        // Running settings!
+        if (this.running) { 
+            run_speed = 15;
+            // Light change.
+            document.querySelector("#blinky").setAttribute("color",'#FF0');
+            } else {
+                run_speed = 1;
+                document.querySelector("#blinky").setAttribute("color",'#FFF');
+                }
+        
+        
+        // Return fov to normal, i.e. not running.
+        if (this.fov<80){this.fov=80;}
+        else 
+            {document.querySelector("#cam").setAttribute("fov",`${this.fov-=0.5}`);}
         
 
         // Apply movement in camera direction.
         if (this.moveX !== 0 || this.moveZ !== 0) {
             const angle = rotation.y;
-            let run_speed=1;
             
-            // Light change test.
-            document.querySelector("#blinky").setAttribute("color",'#FFF');
-            
-            // Running!
-            if (this.running) { run_speed = 15;
-                document.querySelector("#cam").setAttribute("fov",`${this.fov+=0.6}`);
-                if (this.fov>120)this.fov=120;
-                // Light change test.
-                document.querySelector("#blinky").setAttribute("color",'#FF0');
-            } 
+            if (this.running)
+            document.querySelector("#cam").setAttribute("fov",`${this.fov+=0.6}`);
+            if (this.fov>120)this.fov=120;
+
             const speed = 5 * run_speed;
+
             this.velocity.x = (-this.moveZ * Math.sin(angle) + this.moveX * Math.cos(angle)) * speed;
             this.velocity.z = (-this.moveZ * Math.cos(angle) - this.moveX * Math.sin(angle)) * speed;
         } else {
@@ -160,7 +175,7 @@ AFRAME.registerComponent('terrain-movement', {
 
         if (this.flying){
             // Pitch can affect y position...for flight :D
-            position.y += pitch * 0.1 * Math.abs(this.velocity.z);
+            position.y += Math.tan(pitch*0.1) * Math.abs(this.velocity.z);
         } else {
             // Smoothly interpolate to target height.
             position.y += (this.targetY - position.y) * 0.1;

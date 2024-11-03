@@ -1,4 +1,5 @@
 // Procedural terrain generation.
+let ridges=false;
 
 // Perlin noise implementation.
 const noise = {
@@ -128,6 +129,24 @@ function getTerrainHeight(x, z) {
         const valleyBlend = (0.2 - valleyNoise) * 5; // 0 to 1
         height *= (1 - valleyBlend * 0.8);
     }
+
+    //let ridges=false;
+    let biomes=true;
+    let erosion=true;
+    // Add biomes.
+    if (biomes){
+        height += getBiomeHeight(x,z)
+    }
+    // Add ridges.
+    if (ridges){
+        const ridgeNoise = getRidgeNoise(xCoord * 0.5, zCoord * 0.5);
+        // Ridge strength default 30, not 7.
+        height += ridgeNoise * ridgeNoise * 7; // Square it for sharper ridges.
+    }
+    // Add erosion.
+    if (erosion){
+        height += getErosionNoise(xCoord,zCoord);
+    }
     
     return height;
 }
@@ -143,8 +162,8 @@ AFRAME.registerComponent('terrain-generator', {
         this.chunks = new Map(); // Store generated chunks.
         // Start at -99,999 not 0,0, else gap behind subject.
         this.generateChunk(-99, 999);
-        // Chunksize default 50, not 128.
-        this.chunkSize=128;
+        // Chunksize default 50, not 88.
+        this.chunkSize=88;
     },
 
     generateChunk: function(chunkX, chunkZ) {
@@ -210,8 +229,8 @@ AFRAME.registerComponent('terrain-generator', {
         
         // Generate surrounding chunks if they don't exist.
         // Default is 1, not 4.
-        for (let z = chunkZ - 4; z <= chunkZ + 4; z++) {
-            for (let x = chunkX - 4; x <= chunkX + 4; x++) {
+        for (let z = chunkZ - 1; z <= chunkZ + 1; z++) {
+            for (let x = chunkX - 1; x <= chunkX + 1; x++) {
                 const key = `${x},${z}`;
                 if (!this.chunks.has(key)) {
                     this.generateChunk(x, z);
@@ -222,10 +241,63 @@ AFRAME.registerComponent('terrain-generator', {
         // Remove far chunks. Default value us 2, not 5.
         for (const [key, chunk] of this.chunks.entries()) {
             const [x, z] = key.split(',').map(Number);
-            if (Math.abs(x - chunkX) > 5 || Math.abs(z - chunkZ) > 5) {
+            if (Math.abs(x - chunkX) > 2 || Math.abs(z - chunkZ) > 2) {
                 this.el.object3D.remove(chunk);
                 this.chunks.delete(key);
             }
         }
     }
 });
+
+function getBiomeHeight(x, z) {
+    const xCoord = x * 0.05;
+    const zCoord = z * 0.05;
+    
+    // Biome selection
+    const biomeNoise = noise.noise(xCoord * 0.02, 0, zCoord * 0.02);
+    
+    let height = 0;
+    
+    if (biomeNoise < 0.3) {
+        // Plains biome
+        height += noise.noise(xCoord * 1, 0, zCoord * 1) * 8;
+        height += noise.noise(xCoord * 2, 0, zCoord * 2) * 4;
+        
+    } else if (biomeNoise < 0.6) {
+        // Hills biome
+        height += noise.noise(xCoord * 0.5, 0, zCoord * 0.5) * 20;
+        height += noise.noise(xCoord * 1, 0, zCoord * 1) * 10;
+        
+    } else {
+        // Mountains biome
+        height += noise.noise(xCoord * 0.3, 0, zCoord * 0.3) * 35;
+        height += noise.noise(xCoord * 0.8, 0, zCoord * 0.8) * 15;
+        
+        // Sharp peaks
+        const peakNoise = noise.noise(xCoord * 1.5, 0, zCoord * 1.5);
+        if (peakNoise > 0.7) {
+            height += Math.pow(peakNoise - 0.7, 2) * 60;
+        }
+    }
+    
+    return height;
+}
+
+function getRidgeNoise(x, z) {
+    const n = noise.noise(x, 0, z);
+    return 1 - Math.abs(n); // Creates sharp ridges
+}
+
+function getErosionNoise(xCoord,zCoord){
+    // Erosion effect.
+    const erosionNoise = noise.noise(xCoord * 3, 0, zCoord * 3);
+    const slope = Math.abs(
+        noise.noise(xCoord + 0.1, 0, zCoord) - 
+        noise.noise(xCoord - 0.1, 0, zCoord)
+    );
+    
+    // More erosion on steeper slopes.
+    if (slope > 0.2) {
+        return -erosionNoise * slope * 10;
+    } else return 0;
+}
