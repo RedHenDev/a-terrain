@@ -140,8 +140,8 @@ function getTerrainHeight(x, z) {
     // Add ridges.
     if (ridges){
         const ridgeNoise = getRidgeNoise(xCoord * 0.5, zCoord * 0.5);
-        // Ridge strength default 30, not 7.
-        height += ridgeNoise * ridgeNoise * 7; // Square it for sharper ridges.
+        // Ridge strength default 30, not 12.
+        height += ridgeNoise * ridgeNoise * 12; // Square it for sharper ridges.
     }
     // Add erosion.
     if (erosion){
@@ -163,7 +163,9 @@ AFRAME.registerComponent('terrain-generator', {
         // Start at -99,999 not 0,0, else gap behind subject.
         this.generateChunk(-99, 999);
         // Chunksize default 50, not 88.
-        this.chunkSize=88;
+        this.chunkSize=128;
+        // Default number of chunks to gen in one go is 1, not 4.
+        this.chunksToGen=4;
     },
 
     generateChunk: function(chunkX, chunkZ) {
@@ -229,8 +231,8 @@ AFRAME.registerComponent('terrain-generator', {
         
         // Generate surrounding chunks if they don't exist.
         // Default is 1, not 4.
-        for (let z = chunkZ - 1; z <= chunkZ + 1; z++) {
-            for (let x = chunkX - 1; x <= chunkX + 1; x++) {
+        for (let z = chunkZ - this.chunksToGen; z <= chunkZ + this.chunksToGen; z++) {
+            for (let x = chunkX - this.chunksToGen; x <= chunkX + this.chunksToGen; x++) {
                 const key = `${x},${z}`;
                 if (!this.chunks.has(key)) {
                     this.generateChunk(x, z);
@@ -241,7 +243,8 @@ AFRAME.registerComponent('terrain-generator', {
         // Remove far chunks. Default value us 2, not 5.
         for (const [key, chunk] of this.chunks.entries()) {
             const [x, z] = key.split(',').map(Number);
-            if (Math.abs(x - chunkX) > 2 || Math.abs(z - chunkZ) > 2) {
+            if (    Math.abs(x - chunkX) > (this.chunksToGen+1) || 
+                    Math.abs(z - chunkZ) > (this.chunksToGen+1)) {
                 this.el.object3D.remove(chunk);
                 this.chunks.delete(key);
             }
@@ -297,7 +300,9 @@ function getErosionNoise(xCoord,zCoord){
     );
     
     // More erosion on steeper slopes.
+    // Strength default is 10, not 20.
+    const erosionStrength=20;
     if (slope > 0.2) {
-        return -erosionNoise * slope * 10;
+        return -erosionNoise * slope * erosionStrength;
     } else return 0;
 }

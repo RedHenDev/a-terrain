@@ -175,7 +175,7 @@ AFRAME.registerComponent('terrain-movement', {
 
         if (this.flying){
             // Pitch can affect y position...for flight :D
-            position.y += Math.tan(pitch*0.1) * Math.abs(this.velocity.z);
+            position.y += pitch*0.05 * Math.abs(this.velocity.z);
         } else {
             // Smoothly interpolate to target height.
             position.y += (this.targetY - position.y) * 0.1;
