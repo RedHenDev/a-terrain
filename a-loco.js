@@ -101,8 +101,10 @@ AFRAME.registerComponent('terrain-movement', {
             if (cTime-this.timeStamp > 2000){
                 this.timeStamp=Date.now();
                 this.hud.visible=!this.hud.visible;
+                // NB Hud buttons do not respond if not visible.
                 // Note that the below pause() toggles itself :)
-                document.querySelector("#hud").pause();
+                //document.querySelector("#hud").pause();
+                // Causes issue of detatching from player.
             }
         }
 

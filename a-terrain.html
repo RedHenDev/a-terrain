@@ -7,7 +7,7 @@
 
     <!-- For terrain generation using procedural noise.-->
     <script src="urizen.js"></script>
-    <script src="terrain-features.js"></script>
+    <!-- <script src="terrain-features.js"></script> -->
     <!-- Locomotion of player. -->
     <script src='a-loco.js'></script>
     <!-- HUD interactions for settings. -->
@@ -50,9 +50,9 @@
         </a-entity> 
 
         <!-- Experimental nonsense. Hi mom! -->
-        <script src="glow-spheres.js"></script>
-        <a-entity sphere-generator="interval: 200; maxSpheres: 150"></a-entity>
-        <script src='asteroids.js'></script>
+        <!-- <script src="glow-spheres.js"></script> -->
+        <!-- <a-entity sphere-generator="interval: 1000; maxSpheres: 20"></a-entity> -->
+        <!-- <script src='asteroids.js'></script> -->
 
         <!-- Terrain -->
         <a-entity terrain-generator ></a-entity>
@@ -64,7 +64,7 @@
 
         <!-- Lighting -->
         <a-light type="ambient" color="#888"></a-light>
-        <a-light id="blinky" type="directional" position="1 1 1" color="#FFF" intensity="0.1"></a-light>
+        <a-light id="blinky" type="directional" position="1 1 1" color="#FFF" intensity="1"></a-light>
 
         <!-- HUD Interface -->
         <a-entity id="hud" follow-camera>

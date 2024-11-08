@@ -9,7 +9,8 @@ AFRAME.registerComponent('asteroid-nursery', {
         const material = new THREE.MeshStandardMaterial({
             color: 0x808080,
             roughness: 0.9,
-            metalness: 0.1
+            metalness: 0.1,
+            wireframe: false // Set to true to debug triangles
         });
         const asteroid = new THREE.Mesh(geometry, material);
         
@@ -31,7 +32,7 @@ AFRAME.registerComponent('asteroid-nursery', {
     }
 });
 
-function createAsteroidGeometry(radius = 4, craterCount = 5) {
+function createAsteroidGeometry(radius = 1, craterCount = 5) {
     // Create base geometry with higher detail
     const baseGeometry = new THREE.IcosahedronGeometry(radius, 2);
     
@@ -42,10 +43,17 @@ function createAsteroidGeometry(radius = 4, craterCount = 5) {
     const positions = new Float32Array(baseGeometry.attributes.position.array);
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     
-    // If the base geometry has an index, use it
-    if (baseGeometry.index) {
-        geometry.setIndex(new THREE.BufferAttribute(baseGeometry.index.array.slice(), 1));
+    // Calculate indices for triangles
+    const vertexCount = positions.length / 3;
+    const indices = [];
+    
+    // Create triangles - every three consecutive vertices form a triangle
+    for (let i = 0; i < vertexCount; i += 3) {
+        indices.push(i, i + 1, i + 2);
     }
+    
+    // Set the index buffer
+    geometry.setIndex(new THREE.BufferAttribute(new Uint16Array(indices), 1));
     
     // Basic noise distortion
     for (let i = 0; i < positions.length; i += 3) {

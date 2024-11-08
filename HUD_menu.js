@@ -31,12 +31,17 @@ AFRAME.registerComponent('toggle-button', {
   init: function () {
     this.state = this.data.initialState;
     this.el.setAttribute('class', 'clickable');
+
+    // For checking whether active (visible or not).
+    this.hud=document.querySelector("#hud").object3D;
     
     // Set initial colors
     this.updateVisuals();
     
     // Add click handler
     this.el.addEventListener('click', () => {
+      // Disable if not active (i.e. not visible).
+      if (!this.hud.visible) return;
       this.state = !this.state;
       this.updateVisuals();
       // Emit event with new state

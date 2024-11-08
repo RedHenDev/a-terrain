@@ -66,6 +66,16 @@ AFRAME.registerComponent('sphere-generator', {
             (Math.random() - 0.5) * 100
         );
 
+        /*
+        // Attempt to make light...
+        const entity = document.createElement('a-light');
+        entity.setAttribute('position', `${sphere.position.x} ${sphere.position.y+3} ${sphere.position.z}`);
+        entity.setAttribute('type','point');
+        entity.setAttribute('color', '#880');
+        document.querySelector('a-scene').appendChild(entity);
+        setTimeout(document.querySelector('a-scene').removeChild(entity), 5000);
+        */
+
         // Add random velocity
         sphere.userData.velocity = new THREE.Vector3(
             (Math.random() - 0.5) * 2,
