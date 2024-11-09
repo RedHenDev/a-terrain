@@ -80,9 +80,9 @@ AFRAME.registerComponent('terrain-movement', {
                 else this.moveZ=1;
 
                 // Build testing...
-                // const bud = document.createElement('a-box');
-                // bud.object3D.position=position;
-                // document.querySelector('#scene').appendChild(bud);
+                const bud = document.createElement('a-box');
+                bud.object3D.position=position;
+                document.querySelector('#a-scene').appendChild(bud);
                 
             }
         //}
@@ -101,17 +101,15 @@ AFRAME.registerComponent('terrain-movement', {
             if (cTime-this.timeStamp > 2000){
                 this.timeStamp=Date.now();
                 this.hud.visible=!this.hud.visible;
-                // NB Hud buttons do not respond if not visible.
+                // NB Hud buttons still respond if not visible.
                 // Note that the below pause() toggles itself :)
                 //document.querySelector("#hud").pause();
                 // Causes issue of detatching from player.
             }
         }
 
-        let run_speed=1;
+        
 
-        
-        
         // Calculate movement direction.
         // Have negated sign of 1 here -- before, inverted movement bug.
         if(!AFRAME.utils.device.isMobile()){
@@ -132,8 +130,10 @@ AFRAME.registerComponent('terrain-movement', {
             
 
         } 
+
         
         // Running settings!
+        let run_speed=1;
         if (this.running) { 
             run_speed = 15;
             // Light change.

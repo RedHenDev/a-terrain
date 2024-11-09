@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Procedural Terrain gannet</title>
+    <title>Procedural Terrain rooster</title>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/aframe/1.4.2/aframe.min.js"></script> -->
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
 
@@ -16,10 +16,10 @@
 </head>
 <body>
     <!-- fog="type: linear; color: #0AA; far:320;" -->
-    <a-scene fog="type: linear; color: #0AA; far:320;">
+   <a-scene fog="type: linear; color: #0AA; far:320;">
 
         <!-- <script src="folder-scrape.js"></script> -->
-        <!-- <script src="auto_gallery.js"></script> -->
+        <script src="auto_gallery.js"></script>
 
         <!-- preloading assets -->
         <a-assets>
@@ -45,7 +45,31 @@
                     animation__reset="property:scale;from:0 0 0;to: 1 1 1;dur:333;startEvents:mouseleave;"
                 ></a-entity></a-camera>
             <!-- Sky color="#87CEEB"-->
-        <a-sky color="#87CEEB" > </a-sky>
+        <a-sky  color="#87CEEB" >  </a-sky>
+        <!-- Container entity that will rotate -->
+            <a-entity id="blinky"
+            animation="property: rotation;
+                        dur: 20000;
+                        easing: linear;
+                        loop: true;
+                        to: 360 0 0">
+        <!-- Point light positioned away from the center -->
+        <a-entity
+        light="type: point;
+            color: #FDB813;
+            intensity: 2;
+            distance: 512;
+            decay: 2;
+            castShadow: true"
+        position="0 0 -127">
+        <!-- Visual representation of the light source -->
+        <a-sphere radius="20" 
+                material="color: #FDB813; 
+                            shader: flat;
+                            ">
+        </a-sphere>
+        </a-entity>
+        </a-entity>
         <!-- End of player entity. -->
         </a-entity> 
 
@@ -63,8 +87,10 @@
         <!-- <a-obj-model src="#grave-digger" position ="64 1.8 -42" scale="0.03 0.03 0.03" color="white"></a-obj-model> -->
 
         <!-- Lighting -->
-        <a-light type="ambient" color="#888"></a-light>
-        <a-light id="blinky" type="directional" position="1 1 1" color="#FFF" intensity="1"></a-light>
+        <!-- <a-light type="ambient" color="#888"></a-light> -->
+        <!-- <a-light id="blinky" type="directional" position="1 1 1" color="#FFF" intensity="1"></a-light> -->
+
+        
 
         <!-- HUD Interface -->
         <a-entity id="hud" follow-camera>

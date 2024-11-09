@@ -1,9 +1,10 @@
 // Procedural terrain generation.
+
+// Global for testing. This is controlled via HUD.
 let ridges=false;
 
-
-//let ws=prompt('name?');
-let ws='ihoooo';
+let ws=prompt('Type a word or phrase to create unique World Seed :)');
+//let ws='ihoooo';
 
 function getSeed(seedWord){
     // 1. Basic djb2 hash - 
@@ -28,8 +29,9 @@ const noise = {
     init: function() {
         for(let i=0; i < 256; i++) {
             // Here's where we add world seed :)
-            this.p[i] = this.p[i + 256] = this.permutation[i];//*getSeed(ws);
+            this.p[i] = this.p[i + 256] = this.permutation[i]*getSeed(ws);
         }
+        // What's our seed?
         console.log(getSeed(ws));
     },
     fade: function(t) { return t * t * t * (t * (t * 6 - 15) + 10); },
@@ -300,6 +302,7 @@ AFRAME.registerComponent('terrain-generator', {
 
         this.el.object3D.add(chunk);
         this.chunks.set(`${chunkX},${chunkZ}`, chunk);
+        //this.el.setAttribute('shadow');
     },
 
     tick: function() {
