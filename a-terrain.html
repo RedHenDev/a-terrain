@@ -3,7 +3,7 @@
 <head>
     <title>Procedural Terrain rooster</title>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/aframe/1.4.2/aframe.min.js"></script> -->
-    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
 
     <!-- For terrain generation using procedural noise.-->
     <script src="urizen.js"></script>
@@ -20,9 +20,8 @@
 
     <script src="thalassa.js"></script>
 
-    <script src="l-forest.js"></script>
+    <!-- <script src="l-forest.js"></script> -->
     
-
         <!-- <script src="folder-scrape.js"></script> -->
         <script src="auto_gallery.js"></script>
 
@@ -35,8 +34,7 @@
         
         </a-assets>
 
-            
-          
+
 
         <!-- Player with terrain. -->
         <a-entity id="player" position="0 25 0" terrain-movement="height: 0.2">
@@ -94,7 +92,7 @@
         <!-- Terrain -->
         <a-entity terrain-generator ></a-entity>
 
-        <a-obj-model src="#ent" scale="8 8 8" color="brown" position="14 0 -132"></a-obj-model>
+        <a-obj-model src="#ent" scale="23 23 23" color="brown" position="140 -10 -132"></a-obj-model>
 
         <!-- A Monster Truck! -->
         <!-- <a-obj-model src="#grave-digger" scale="3 3 3" color="pink"></a-obj-model> -->
@@ -102,7 +100,7 @@
         <!-- <a-obj-model src="#grave-digger" position ="64 1.8 -42" scale="0.03 0.03 0.03" color="white"></a-obj-model> -->
 
         <!-- Lighting -->
-        <!-- <a-light type="ambient" color="#888"></a-light> -->
+         <a-light type="ambient" color="#888"></a-light> 
         <!-- <a-light id="blinky" type="directional" position="1 1 1" color="#FFF" intensity="1"></a-light> -->
 
         

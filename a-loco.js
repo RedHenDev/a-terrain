@@ -18,6 +18,11 @@ AFRAME.registerComponent('terrain-movement', {
         this.running=false;
         this.flying=false;
         this.hud=document.querySelector("#hud").object3D;
+
+        // Lunar bounce.
+        this.jumpTime=Date.now();
+        this.jumping=false;
+        this.presentJumpSpeed=0.5;
         
         // Setup key listeners for smoother movement
         this.keys = {
@@ -80,13 +85,13 @@ AFRAME.registerComponent('terrain-movement', {
                 else this.moveZ=1;
 
                 // Build testing...
-                const bud = document.createElement('a-box');
-                bud.setAttribute('position', `  ${position.x} 
-                                                ${position.y+5}
-                                                ${position.z-5}`);
-                bud.setAttribute('scale','2 2 2');
-                bud.setAttribute('color','#FFF');
-                document.querySelector('a-scene').appendChild(bud);
+                // const bud = document.createElement('a-box');
+                // bud.setAttribute('position', `  ${position.x} 
+                //                                 ${position.y+5}
+                //                                 ${position.z-5}`);
+                // bud.setAttribute('scale','2 2 2');
+                // bud.setAttribute('color','#FFF');
+                // document.querySelector('a-scene').appendChild(bud);
                 //console.log('boomy');
                 
             }
@@ -180,18 +185,34 @@ AFRAME.registerComponent('terrain-movement', {
         const terrainY = getTerrainHeight(position.x, position.z);
         this.targetY = terrainY + this.data.height;
         
-        
-
         if (this.flying){
             // Pitch can affect y position...for flight :D
             position.y += pitch*0.05 * Math.abs(this.velocity.z);
         } else {
             // Smoothly interpolate to target height.
-            position.y += (this.targetY - position.y) * 0.1;
+            // Default is 0.1 not 0.001.
+            if (!this.jumping){
+                //position.y += (this.targetY - position.y) * 0.1;
+                position.y -= this.presentJumpSpeed;
+                this.presentJumpSpeed *= 1.01;
+            }
+            else if (this.jumping){
+                position.y += this.presentJumpSpeed;
+                this.presentJumpSpeed *= 0.986;
+                if (this.presentJumpSpeed <= 0.009){//Date.now()-this.jumpTime >= 2000){
+                    this.jumping=false;
+                    //this.presentJumpSpeed=0.1;
+                }
+            }
         }
 
         // Prevent falling below present surface.
-        if (position.y < this.targetY) position.y = terrainY + this.data.height;
+        if (position.y < this.targetY) {
+            //this.jumpTime=Date.now();
+            this.jumping=true;
+            this.presentJumpSpeed=0.1;
+            position.y = terrainY + this.data.height;
+        }
     }
 });
 

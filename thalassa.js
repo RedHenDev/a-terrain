@@ -7,8 +7,10 @@ AFRAME.registerComponent('the-sea', {
 
         const bud = document.createElement('a-box');
         bud.setAttribute('position', '0 -12 0');
-        bud.setAttribute('scale','1000 2 1000');
-        bud.setAttribute('color','#00108A');
+        bud.setAttribute('scale','1000 0.3 1000');
+        bud.setAttribute('color','#009F9F');
+        bud.setAttribute('transparent', 'true');
+        bud.setAttribute('opacity', '0.5');
         document.querySelector('a-scene').appendChild(bud);
         //console.log('building sea');
 
