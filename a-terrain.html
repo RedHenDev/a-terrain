@@ -18,6 +18,11 @@
     <!-- fog="type: linear; color: #0AA; far:320;" -->
    <a-scene fog="type: linear; color: #0AA; far:320;">
 
+    <script src="thalassa.js"></script>
+
+    <script src="l-forest.js"></script>
+    
+
         <!-- <script src="folder-scrape.js"></script> -->
         <script src="auto_gallery.js"></script>
 
@@ -25,8 +30,13 @@
         <a-assets>
         <!-- Preload our assets, such as the Monster Truck :) -->
             <!-- <a-asset-item id="grave-digger" src="graveDigger.obj"></a-asset-item> -->
+        
+            <a-asset-item id="ent" src="tree.obj"></a-asset-item>
+        
         </a-assets>
 
+            
+          
 
         <!-- Player with terrain. -->
         <a-entity id="player" position="0 25 0" terrain-movement="height: 0.2">
@@ -48,26 +58,29 @@
         <a-sky  color="#87CEEB" >  </a-sky>
         <!-- Container entity that will rotate -->
             <a-entity id="blinky"
+            
             animation="property: rotation;
                         dur: 20000;
                         easing: linear;
                         loop: true;
-                        to: 360 0 0">
+                        to: 360 0 0" 
+                        >
+
         <!-- Point light positioned away from the center -->
         <a-entity
         light="type: point;
             color: #FDB813;
             intensity: 2;
             distance: 512;
-            decay: 2;
+            decay: 1;
             castShadow: true"
         position="0 0 -127">
         <!-- Visual representation of the light source -->
-        <a-sphere radius="20" 
+        <!-- <a-sphere radius="20" 
                 material="color: #FDB813; 
                             shader: flat;
                             ">
-        </a-sphere>
+        </a-sphere> -->
         </a-entity>
         </a-entity>
         <!-- End of player entity. -->
@@ -80,6 +93,8 @@
 
         <!-- Terrain -->
         <a-entity terrain-generator ></a-entity>
+
+        <a-obj-model src="#ent" scale="8 8 8" color="brown" position="14 0 -132"></a-obj-model>
 
         <!-- A Monster Truck! -->
         <!-- <a-obj-model src="#grave-digger" scale="3 3 3" color="pink"></a-obj-model> -->

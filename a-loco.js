@@ -66,7 +66,7 @@ AFRAME.registerComponent('terrain-movement', {
             // Let's try a toggle left.
             const minZ=0.3;  // Default 0.2.
 			const maxZ=0.5; // Default 0.4.
-                if ((roll > minZ && roll < maxZ)){
+                if ((roll > minZ && roll < maxZ)||this.keys.a){
                     //console.log('rooling?');
             // Log time stamp. This will be for
             // toggling via head z rotations.
@@ -81,8 +81,13 @@ AFRAME.registerComponent('terrain-movement', {
 
                 // Build testing...
                 const bud = document.createElement('a-box');
-                bud.object3D.position=position;
-                document.querySelector('#a-scene').appendChild(bud);
+                bud.setAttribute('position', `  ${position.x} 
+                                                ${position.y+5}
+                                                ${position.z-5}`);
+                bud.setAttribute('scale','2 2 2');
+                bud.setAttribute('color','#FFF');
+                document.querySelector('a-scene').appendChild(bud);
+                //console.log('boomy');
                 
             }
         //}
