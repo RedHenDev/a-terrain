@@ -2,7 +2,8 @@
 let ridges=false;
 
 
-let ws=prompt('name?');
+//let ws=prompt('name?');
+let ws='ihoooo';
 
 function getSeed(seedWord){
     // 1. Basic djb2 hash - 
@@ -27,7 +28,7 @@ const noise = {
     init: function() {
         for(let i=0; i < 256; i++) {
             // Here's where we add world seed :)
-            this.p[i] = this.p[i + 256] = this.permutation[i]*getSeed(ws);
+            this.p[i] = this.p[i + 256] = this.permutation[i];//*getSeed(ws);
         }
         console.log(getSeed(ws));
     },
