@@ -19,7 +19,8 @@ AFRAME.registerComponent('terrain-movement', {
         this.flying=false;
         this.hud=document.querySelector("#hud").object3D;
 
-        // Lunar bounce.
+        // Luna bounce.
+        this.lunaBounce=true;
         this.jumpTime=Date.now();
         this.jumping=false;
         this.presentJumpSpeed=0.5;
@@ -185,32 +186,37 @@ AFRAME.registerComponent('terrain-movement', {
         const terrainY = getTerrainHeight(position.x, position.z);
         this.targetY = terrainY + this.data.height;
         
+        // Test hack to use ridges button as luna bounce.
+        //this.lunaBounce=ridges;
         if (this.flying){
             // Pitch can affect y position...for flight :D
             position.y += pitch*0.05 * Math.abs(this.velocity.z);
-        } else {
+        } else if (this.lunaBounce) {
             // Smoothly interpolate to target height.
             // Default is 0.1 not 0.001.
             if (!this.jumping){
-                //position.y += (this.targetY - position.y) * 0.1;
                 position.y -= this.presentJumpSpeed;
                 this.presentJumpSpeed *= 1.01;
             }
             else if (this.jumping){
                 position.y += this.presentJumpSpeed;
                 this.presentJumpSpeed *= 0.986;
-                if (this.presentJumpSpeed <= 0.009){//Date.now()-this.jumpTime >= 2000){
+                if (this.presentJumpSpeed <= 0.009){
                     this.jumping=false;
-                    //this.presentJumpSpeed=0.1;
                 }
             }
+        } else if (!this.lunaBounce) {
+            // So, just walking...
+            position.y += (this.targetY - position.y) * 0.1;
         }
 
         // Prevent falling below present surface.
         if (position.y < this.targetY) {
             //this.jumpTime=Date.now();
-            this.jumping=true;
-            this.presentJumpSpeed=0.1;
+            if (this.lunaBounce){
+                this.jumping=true;
+                this.presentJumpSpeed=0.1;
+            }
             position.y = terrainY + this.data.height;
         }
     }

@@ -1,7 +1,6 @@
 // Procedural terrain generation.
 
-// Global for testing. This is controlled via HUD.
-let ridges=false;
+
 
 let ws=prompt('Type a word or phrase to create unique World Seed :)');
 //let ws='ihoooo';
@@ -154,9 +153,9 @@ function getTerrainHeight(x, z) {
         height *= (1 - valleyBlend * 0.8);
     }
 
-    //let ridges=false;
     let biomes=true;
     let erosion=true;
+    let ridges=false;
     // Add biomes.
     if (biomes){
         height += getBiomeHeight(x,z)

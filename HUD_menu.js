@@ -65,20 +65,19 @@ document.addEventListener('DOMContentLoaded', () => {
             //console.log('Button state:', event.detail.state);
             const playerEl = document.querySelector('#player');
             const tmc = playerEl.components['terrain-movement'];
-            tmc.running=!tmc.running;
+            tmc.running=event.detail.state;
         });
         document.querySelector('#b2').addEventListener('statechanged', (event) => {
             //console.log('Button state:', event.detail.state);
             const playerEl = document.querySelector('#player');
             const tmc = playerEl.components['terrain-movement'];
-            tmc.flying=!tmc.flying;
+            tmc.flying=event.detail.state;
         });
         document.querySelector('#b3').addEventListener('statechanged', (event) => {
           //console.log('Button state:', event.detail.state);
-          //const playerEl = document.querySelector('#urizen');
-          //const tmc = playerEl.components['terrain-movement'];
-          //tmc.flying=!tmc.flying;
-          ridge=!ridges;
+          const playerEl = document.querySelector('#player');
+          const tmc = playerEl.components['terrain-movement'];
+          tmc.lunaBounce=event.detail.state;
       });
     }
 });
