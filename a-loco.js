@@ -20,7 +20,7 @@ AFRAME.registerComponent('terrain-movement', {
         this.hud=document.querySelector("#hud").object3D;
 
         // Luna bounce.
-        this.lunaBounce=true;
+        this.lunaBounce=false;
         this.jumpTime=Date.now();
         this.jumping=false;
         this.presentJumpSpeed=0.5;
@@ -201,7 +201,8 @@ AFRAME.registerComponent('terrain-movement', {
             else if (this.jumping){
                 position.y += this.presentJumpSpeed;
                 this.presentJumpSpeed *= 0.986;
-                if (this.presentJumpSpeed <= 0.009){
+                // The smaller the number below, the smoother the crest and fall.
+                if (this.presentJumpSpeed <= 0.0085){
                     this.jumping=false;
                 }
             }
