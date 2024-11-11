@@ -146,12 +146,10 @@ AFRAME.registerComponent('terrain-movement', {
         // Running settings!
         let run_speed=1;
         if (this.running) { 
-            run_speed = 15;
-            // Light change.
-            document.querySelector("#blinky").setAttribute("color",'#FF0');
+            run_speed = 5;
             } else {
                 run_speed = 1;
-                document.querySelector("#blinky").setAttribute("color",'#FFF');
+                
                 }
         
         
@@ -190,25 +188,29 @@ AFRAME.registerComponent('terrain-movement', {
         //this.lunaBounce=ridges;
         if (this.flying){
             // Pitch can affect y position...for flight :D
-            position.y += pitch*0.05 * Math.abs(this.velocity.z);
+            position.y += pitch*0.06 * Math.abs(this.velocity.z);
         } else if (this.lunaBounce) {
-            // Smoothly interpolate to target height.
-            // Default is 0.1 not 0.001.
             if (!this.jumping){
                 position.y -= this.presentJumpSpeed;
-                this.presentJumpSpeed *= 1.01;
+                // Moony = 1.01 Earthy = 1.1
+                this.presentJumpSpeed *= 1.04;
             }
             else if (this.jumping){
                 position.y += this.presentJumpSpeed;
+                // Friction upward is 0.986.
                 this.presentJumpSpeed *= 0.986;
                 // The smaller the number below, the smoother the crest and fall.
+                // 0.0085 is nice.
                 if (this.presentJumpSpeed <= 0.0085){
                     this.jumping=false;
                 }
             }
         } else if (!this.lunaBounce) {
-            // So, just walking...
-            position.y += (this.targetY - position.y) * 0.1;
+            // So, just walking...interpolate to target. Slower if in water (<=-12).
+            if (position.y <= -12) 
+                position.y += (this.targetY - position.y) * 0.01;
+            else
+                position.y += (this.targetY - position.y) * 0.1;
         }
 
         // Prevent falling below present surface.

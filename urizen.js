@@ -2,7 +2,7 @@
 
 
 
-let ws=prompt('Type a word or phrase to create unique World Seed :)');
+let ws=prompt('Type a word or phrase to generate\n a new terrain.');
 //let ws='ihoooo';
 
 function getSeed(seedWord){
@@ -15,6 +15,7 @@ function getSeed(seedWord){
                 hash = ((hash << 5) + hash) +
                 seedWord.charCodeAt(i);
             }
+            if (hash==NaN||hash===5381) return 1;
             return hash >>> 0; 
         // Convert to unsigned 32-bit integer.
 }
@@ -107,18 +108,18 @@ function getTerrainHeight(x, z) {
 
 function getTerrainHeight(x, z) {
     // Default 0.05.
-    const xCoord = x * 0.06;  // Base frequency - try 0.03 for wider features or 0.08 for tighter
-    const zCoord = z * 0.06;
+    const xCoord = x * 0.05;  // Base frequency - try 0.03 for wider features or 0.08 for tighter.
+    const zCoord = z * 0.05;
     
     // Base terrain with multiple layers
     let height = 0;
     
     // Large features (mountains and valleys)
     // Original values 0.5 and 24.
-    height += noise.noise(xCoord * 0.1, 0, zCoord * 0.1) * 48;  // Increased from 10
+    height += noise.noise(xCoord * 0.1, 0, zCoord * 0.1) * 48;  // Increased from 10.
     
     // Medium features (hills)
-    height += noise.noise(xCoord * 1, 0, zCoord * 1) * 12;  // New medium scale
+    height += noise.noise(xCoord * 1, 0, zCoord * 1) * 12;  // New medium scale.
     
     // Small features (rough terrain)
     height += noise.noise(xCoord * 2, 0, zCoord * 2) * 6;
@@ -187,11 +188,11 @@ function getTerrainHeight(x, z) {
 
 function getTerrainColor(height) {
     // Basic height-based coloring
-    if (height < 0) return '#002900';     // Deep water
-    if (height < 5) return '#003800';     // Shallow water
-    if (height < 10) return '#004400';    // Beach/Sand
-    if (height < 30) return '#004800';    // Grass/Plains
-    if (height < 50) return '#005000';    // Forest
+    if (height < 0) return '#00A900';     // Deep water
+    if (height < 5) return '#00B800';     // Shallow water
+    if (height < 10) return '#00C400';    // Beach/Sand
+    if (height < 30) return '#00D800';    // Grass/Plains
+    if (height < 50) return '#00E000';    // Forest
     if (height < 70) return '#6B6B6B';    // Mountain
     return '#FFFFFF';                     // Snow peaks
 }
@@ -209,27 +210,27 @@ AFRAME.registerComponent('terrain-generator', {
         // Start at -99,999 not 0,0, else gap behind subject.
         //this.worldSeed = this.hashseed(worldName);
         this.generateChunk(-99,999);
-        // Chunksize default 50, not 88.
-        this.chunkSize=64;
-        // Default number of chunks to gen in one go is 1, not 4.
-        this.chunksToGen=3;
+        // Chunksize default 50, not 64.
+        this.chunkSize=88;
+        // Default number of chunks to gen in one go is 1, not 3.
+        this.chunksToGen=2;
     },
 
-    hashseed: function(seedString){
-        // 1. Basic djb2 hash - 
-        // simple but effective for most cases.
+    // hashseed: function(seedString){
+    //     // 1. Basic djb2 hash - 
+    //     // simple but effective for most cases.
         
-        let hash = 5381;
-        for (let i = 0; i < seedString.length; i++) 
-            {
-                hash = ((hash << 5) + hash) +
-                seedString.charCodeAt(i);
-            }
-            console.log(hash >>> 0);
-            console.log(hash);
-            return hash; 
-        // Convert to unsigned 32-bit integer.
-    },
+    //     let hash = 5381;
+    //     for (let i = 0; i < seedString.length; i++) 
+    //         {
+    //             hash = ((hash << 5) + hash) +
+    //             seedString.charCodeAt(i);
+    //         }
+    //         console.log(hash >>> 0);
+    //         console.log(hash);
+    //         return hash; 
+    //     // Convert to unsigned 32-bit integer.
+    // },
 
     generateChunk: function(chunkX, chunkZ) {
         const chunkSize = this.chunkSize;
@@ -344,7 +345,8 @@ function getBiomeHeight(x, z) {
     
     let height = 0;
     
-    if (biomeNoise < 0.3) {
+    // Default < 0.3.
+    if (biomeNoise < 0.5) {
         // Plains biome
         height += noise.noise(xCoord * 1, 0, zCoord * 1) * 8;
         height += noise.noise(xCoord * 2, 0, zCoord * 2) * 4;
