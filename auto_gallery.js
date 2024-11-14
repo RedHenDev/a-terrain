@@ -10,6 +10,7 @@ function autoGalleryGo() {
         const img = document.createElement('img');
         img.id = file.split('.')[0];
         img.src = file;
+        img.setAttribute('crossorigin', 'local');
         assets.appendChild(img);
 
         console.log('generating image object in scene...');
@@ -24,7 +25,6 @@ function autoGalleryGo() {
         plane.setAttribute('width', '100');
         plane.setAttribute('height', '100');
         plane.setAttribute('material', 'side: double');
-        plane.setAttribute('crossorigin', 'local');
         scene.appendChild(plane);
     });
 

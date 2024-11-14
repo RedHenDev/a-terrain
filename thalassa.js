@@ -5,6 +5,8 @@ document.querySelector('a-scene').appendChild(entity);
 AFRAME.registerComponent('the-sea', {
     init: function() {
 
+        this.pl = document.querySelector('#player');
+
         const bud = document.createElement('a-box');
         bud.setAttribute('position', '0 -12 0');
         bud.setAttribute('scale','1000 0.3 1000');
@@ -18,5 +20,8 @@ AFRAME.registerComponent('the-sea', {
     
     tick: function(time, delta) {
         //console.log('tn');
+
+        this.el.object3D.position = this.pl.object3D.position;
+        this.el.object3D.position.y=-12;
     }
 });

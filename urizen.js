@@ -116,7 +116,7 @@ function getTerrainHeight(x, z) {
     
     // Large features (mountains and valleys)
     // Original values 0.5 and 24.
-    height += noise.noise(xCoord * 0.1, 0, zCoord * 0.1) * 48;  // Increased from 10.
+    height += noise.noise(xCoord * 0.1, 0, zCoord * 0.1) * 64;  // Increased from 10.
     
     // Medium features (hills)
     height += noise.noise(xCoord * 1, 0, zCoord * 1) * 12;  // New medium scale.
@@ -140,7 +140,7 @@ function getTerrainHeight(x, z) {
     // Add plateaus.
     const plateauNoise = noise.noise(xCoord * 0.15, 0, zCoord * 0.15);
     if (plateauNoise > 0.7) {
-        // Default 15, not 150.
+        // Default 15..
         const plateauHeight = 15;
         const plateauBlend = (plateauNoise - 0.7) * 3.33; // 0 to 1
         height = height * (1 - plateauBlend) + plateauHeight * plateauBlend;
@@ -187,12 +187,13 @@ function getTerrainHeight(x, z) {
 // }
 
 function getTerrainColor(height) {
-    // Basic height-based coloring
-    if (height < 0) return '#00A900';     // Deep water
+    // Basic height-based colouring.
+    if (height < -11.5) return '#002222';
+    if (height < 0) return '#222200';     // Deep water
     if (height < 5) return '#00B800';     // Shallow water
     if (height < 10) return '#00C400';    // Beach/Sand
-    if (height < 30) return '#00D800';    // Grass/Plains
-    if (height < 50) return '#00E000';    // Forest
+    if (height < 30) return '#222211';    // Grass/Plains
+    if (height < 50) return '#0B0B0B';    // Forest
     if (height < 70) return '#6B6B6B';    // Mountain
     return '#FFFFFF';                     // Snow peaks
 }
@@ -214,6 +215,15 @@ AFRAME.registerComponent('terrain-generator', {
         this.chunkSize=88;
         // Default number of chunks to gen in one go is 1, not 3.
         this.chunksToGen=2;
+
+        // Texturing the terrain.
+        // First create texture loader. I.e. via THREE.js.
+        const textureLoader = new THREE.TextureLoader();
+        // Load texture from image file.
+        this.texture = textureLoader.load('nrm1.png');
+        this.texture.wrapS = THREE.RepeatWrapping;
+        this.texture.wrapT = THREE.RepeatWrapping;
+        this.texture.repeat.set(22, 22);
     },
 
     // hashseed: function(seedString){
@@ -293,9 +303,12 @@ AFRAME.registerComponent('terrain-generator', {
         const chunk = new THREE.Mesh(
             geometry,
             new THREE.MeshStandardMaterial({
-                vertexColors: true,
+                map: this.texture,
+                roughnessMap: this.texture,
+                color: '#4CAF50',
+                vertexColors: false,
                 roughness: 0.8,
-                metalness: 0.2,
+                metalness: 0.4,
                 flatShading: true
             })
         );
@@ -341,11 +354,12 @@ function getBiomeHeight(x, z) {
     const zCoord = z * 0.05;
     
     // Biome selection
-    const biomeNoise = noise.noise(xCoord * 0.02, 0, zCoord * 0.02);
+    const biomeNoise = noise.noise(xCoord * 0.002, 0, zCoord * 0.002);
     
     let height = 0;
     
-    // Default < 0.3.
+    // Default < 0.5.
+    // Hills is 0.6.
     if (biomeNoise < 0.5) {
         // Plains biome
         height += noise.noise(xCoord * 1, 0, zCoord * 1) * 8;
@@ -386,7 +400,7 @@ function getErosionNoise(xCoord,zCoord){
     
     // More erosion on steeper slopes.
     // Strength default is 10, not 20.
-    const erosionStrength=20;
+    const erosionStrength=16;
     if (slope > 0.2) {
         return -erosionNoise * slope * erosionStrength;
     } else return 0;
