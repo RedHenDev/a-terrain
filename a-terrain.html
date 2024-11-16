@@ -7,6 +7,10 @@
 
     <!-- For terrain generation using procedural noise.-->
     <script src="urizen.js"></script>
+
+    <!-- Snow system -->
+    <script src="snow_sys.js"></script>
+
     <!-- <script src="terrain-features.js"></script> -->
     <!-- Locomotion of player. -->
     <script src='a-loco.js'></script>
@@ -103,7 +107,10 @@
                             ">
         </a-sphere> -->
         </a-entity>
+        <!-- Snee! -->
+        <a-entity snow-system="count: 10000; range: 50; height: 20"></a-entity>
         </a-entity>
+        
         <!-- End of player entity. -->
         </a-entity> 
 
@@ -114,6 +121,9 @@
 
         <!-- Terrain -->
         <a-entity terrain-generator ></a-entity>
+
+        <!-- Snee! -->
+        <a-entity snow-system="count: 10000; range: 50; height: 10"></a-entity>
 
         <!-- Here is where we load in obj models -->
 
