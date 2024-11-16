@@ -303,10 +303,10 @@ AFRAME.registerComponent('terrain-generator', {
         const chunk = new THREE.Mesh(
             geometry,
             new THREE.MeshStandardMaterial({
-                map: this.texture,
+                // map: this.texture,
                 roughnessMap: this.texture,
-                color: '#4CAF50',
-                vertexColors: false,
+                // color: '#4CAF50',
+                vertexColors: true,
                 roughness: 0.8,
                 metalness: 0.4,
                 flatShading: true

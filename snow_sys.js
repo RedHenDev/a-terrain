@@ -34,21 +34,34 @@ AFRAME.registerComponent('snow-system', {
     //   );
   
       const material = new THREE.PointsMaterial({
-        size: 0.25,
+        size: 0.025,
         map: texture,
         transparent: true,
-        opacity: 0.6,
+        opacity: 0.9,
         vertexColors: false,
         blending: THREE.AdditiveBlending
       });
   
       this.points = new THREE.Points(geometry, material);
       this.el.setObject3D('particle-system', this.points);
+
+      this.bod=this.el.object3D;
       
       this.velocities = velocities;
+
+      // Grab the player.
+      this.pl = document.querySelector('#player').object3D;
     },
   
     tick: function(time, deltaTime) {
+
+        // Pursue player.
+        this.pl = document.querySelector('#player').object3D;
+        this.bod.position.x += (this.pl.position.x - this.bod.position.x) * 0.03;
+        this.bod.position.z += (this.pl.position.z - this.bod.position.z) * 0.03;
+        this.bod.position.y += (this.pl.position.y - this.bod.position.y) * 0.03;
+
+
       const positions = this.points.geometry.attributes.position.array;
       
       for (let i = 0; i < this.data.count; i++) {

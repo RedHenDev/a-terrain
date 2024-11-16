@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Procedural Terrain hedwig</title>
+    <title>Procedural Terrain barn owl</title>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/aframe/1.4.2/aframe.min.js"></script> -->
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
 
@@ -20,7 +20,7 @@
 </head>
 <body>
     <!-- fog="type: linear; color: #0AA; far:320;" -->
-   <a-scene fog="type: linear; color: #0AA; far:320;">
+   <a-scene fog="type: linear; color: #AAA; far:320;">
 
     <script src="thalassa.js"></script>
 
@@ -107,12 +107,14 @@
                             ">
         </a-sphere> -->
         </a-entity>
-        <!-- Snee! -->
-        <a-entity snow-system="count: 10000; range: 50; height: 20"></a-entity>
+        <!-- Can place snow here, for example. -->
         </a-entity>
         
         <!-- End of player entity. -->
         </a-entity> 
+
+        <!-- Snee! -->
+        <a-entity snow-system="count: 40000; range: 10; height: 40"></a-entity>
 
         <!-- Experimental nonsense. Hi mom! -->
         <!-- <script src="glow-spheres.js"></script> -->
@@ -121,9 +123,6 @@
 
         <!-- Terrain -->
         <a-entity terrain-generator ></a-entity>
-
-        <!-- Snee! -->
-        <a-entity snow-system="count: 10000; range: 50; height: 10"></a-entity>
 
         <!-- Here is where we load in obj models -->
 
