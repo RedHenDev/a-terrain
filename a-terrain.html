@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Procedural Terrain owl</title>
+    <title>Procedural Terrain hedwig</title>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/aframe/1.4.2/aframe.min.js"></script> -->
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
 
@@ -28,8 +28,12 @@
         <!-- preloading assets -->
         <a-assets>
         <!-- Preload our assets, such as the Monster Truck :) -->
-            <a-asset-item id="grave-digger" src="graveDigger.obj"></a-asset-item>
+            <!-- <a-asset-item id="grave-digger" src="graveDigger.obj"></a-asset-item> -->
         
+            <a-asset-item id="great-hall" src="great_hall.glb"></a-asset-item>
+
+            <a-asset-item id="hogz" src="hw1.glb"></a-asset-item>
+
             <a-asset-item id="edward" src="shuttle.obj"
                   ></a-asset-item>
 
@@ -125,8 +129,16 @@
                      to: 84 18 -42"></a-obj-model>
 
         <!-- A Monster Truck! -->
-        <a-obj-model src="#grave-digger" scale="3 3 3" color="pink"></a-obj-model>
-        <a-obj-model src="#grave-digger" position ="64 1.8 -42" scale="0.03 0.03 0.03" color="white"></a-obj-model>
+        <!-- <a-obj-model src="#grave-digger" scale="3 3 3" color="pink"></a-obj-model> -->
+        <!-- <a-obj-model src="#grave-digger" position ="64 1.8 -42" scale="0.03 0.03 0.03" color="white"></a-obj-model> -->
+
+        <a-entity gltf-model="#great-hall"
+                    position ="0 132 -520" 
+                    scale="32 32 32"></a-entity>
+        
+        <a-entity gltf-model="#hogz"
+                    position ="0 0.453 4" 
+                    scale="1 1 1"></a-entity>
 
         <!-- Lighting -->
          <a-light type="ambient" color="#888"></a-light> 

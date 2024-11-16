@@ -5,23 +5,26 @@ document.querySelector('a-scene').appendChild(entity);
 AFRAME.registerComponent('the-sea', {
     init: function() {
 
-        this.pl = document.querySelector('#player');
+        this.pl = document.querySelector('#player').object3D;
 
         const bud = document.createElement('a-box');
-        bud.setAttribute('position', '0 -12 0');
-        bud.setAttribute('scale','1000 0.3 1000');
+        bud.setAttribute('position', '0 0 0');
+        bud.setAttribute('scale','1000 0.01 1000');
         bud.setAttribute('color','#009F9F');
         bud.setAttribute('transparent', 'true');
-        bud.setAttribute('opacity', '0.5');
+        bud.setAttribute('opacity', '0.7');
         document.querySelector('a-scene').appendChild(bud);
+
+        this.sea = bud.object3D;
         //console.log('building sea');
 
     },
     
     tick: function(time, delta) {
-        //console.log('tn');
+        //console.log(`${this.el.object3D.position.y}`);
 
-        this.el.object3D.position = this.pl.object3D.position;
-        this.el.object3D.position.y=-12;
+        this.sea.position.x = this.pl.position.x;
+        this.sea.position.z = this.pl.position.z;
+        this.sea.position.y=-12;
     }
 });
