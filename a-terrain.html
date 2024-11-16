@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Procedural Terrain barn owl</title>
+    <title>Procedural Terrain seal</title>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/aframe/1.4.2/aframe.min.js"></script> -->
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
 
@@ -114,11 +114,11 @@
         </a-entity> 
 
         <!-- Snee! -->
-        <a-entity snow-system="count: 400000; range: 40; height: 40"></a-entity>
+        <a-entity snow-system="count: 300000; range: 40; height: 40"></a-entity>
 
         <!-- Experimental nonsense. Hi mom! -->
-        <!-- <script src="glow-spheres.js"></script> -->
-        <!-- <a-entity sphere-generator="interval: 1000; maxSpheres: 20"></a-entity> -->
+        <script src="glow-spheres.js"></script>
+        <a-entity sphere-generator="interval: 1000; maxSpheres: 20"></a-entity>
         <!-- <script src='asteroids.js'></script> -->
 
         <!-- Terrain -->
@@ -126,7 +126,7 @@
 
         <!-- Here is where we load in obj models -->
 
-        <a-obj-model src="#ent" scale="23 23 23" color="brown" position="440 -10 -432"></a-obj-model>
+        <a-obj-model src="#ent" scale="23 23 23" color="white" position="440 -10 -432"></a-obj-model>
 
         <a-obj-model src="#edward" scale="4 4 4" position="84 12 -42" color="#999" 
                      animation="property: position; 
@@ -142,12 +142,13 @@
         <!-- <a-obj-model src="#grave-digger" position ="64 1.8 -42" scale="0.03 0.03 0.03" color="white"></a-obj-model> -->
 
         <a-entity gltf-model="#great-hall"
-                    position ="0 132 -520" 
-                    scale="32 32 32"></a-entity>
+                    position ="0 182 -820" 
+                    scale="42 42 42"
+                    rotation="0 63 0"></a-entity>
         
-        <a-entity gltf-model="#hogz"
+        <!-- <a-entity gltf-model="#hogz"
                     position ="0 0.453 4" 
-                    scale="1 1 1"></a-entity>
+                    scale="1 1 1"></a-entity> -->
 
         <!-- Lighting -->
          <a-light type="ambient" color="#888"></a-light> 

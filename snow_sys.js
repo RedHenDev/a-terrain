@@ -70,7 +70,7 @@ AFRAME.registerComponent('snow-system', {
         positions[i * 3] += this.velocities[i].x * deltaTime / 1000;
         
         // Reset particles that fall below ground.
-        if (positions[i * 3 + 1] < -12) {
+        if (positions[i * 3 + 1]+this.pl.position.y <= -12) {
           positions[i * 3] = (Math.random() - 0.5) * this.data.range;
           positions[i * 3 + 1] = this.data.height;
           positions[i * 3 + 2] = (Math.random() - 0.5) * this.data.range;

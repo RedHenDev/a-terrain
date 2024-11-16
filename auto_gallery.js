@@ -1,6 +1,6 @@
 // For use with A-Frame.
 function autoGalleryGo() {
-    const imageFiles = ['drawing_1.jpg'];
+    const imageFiles = ['drawing_1.jpg','moon_1.jpg'];
     const scene = document.querySelector('a-scene');
     const assets = document.createElement('a-assets');
 
