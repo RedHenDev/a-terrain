@@ -32,7 +32,7 @@ const noise = {
             this.p[i] = this.p[i + 256] = this.permutation[i]*getSeed(ws);
         }
         // What's our seed?
-        console.log(getSeed(ws));
+        console.log('world seed is ' + getSeed(ws));
     },
     fade: function(t) { return t * t * t * (t * (t * 6 - 15) + 10); },
     lerp: function(t, a, b) { return a + t * (b - a); },

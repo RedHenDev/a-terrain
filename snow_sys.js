@@ -2,7 +2,8 @@ AFRAME.registerComponent('snow-system', {
     schema: {
       count: {type: 'number', default: 1000},
       range: {type: 'number', default: 25},
-      height: {type: 'number', default: 30}
+      height: {type: 'number', default: 30},
+      snowing: {type: 'boolean', default: false}
     },
   
     init: function() {
@@ -52,15 +53,15 @@ AFRAME.registerComponent('snow-system', {
 
       // Grab the player.
       this.pl = document.querySelector('#player').object3D;
+
     },
   
     tick: function(time, deltaTime) {
 
-        const snowing = false;
-        if (!snowing) return;
+        
+        if (!this.data.snowing) return;
 
         // Pursue player.
-        this.pl = document.querySelector('#player').object3D;
         this.bod.position.x += (this.pl.position.x - this.bod.position.x) * 0.03;
         this.bod.position.z += (this.pl.position.z - this.bod.position.z) * 0.03;
         this.bod.position.y += (this.pl.position.y - this.bod.position.y) * 0.03;

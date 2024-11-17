@@ -58,42 +58,49 @@ AFRAME.registerComponent('generate-hud', {
     };
 
     // Create the three buttons with their respective handlers
-    const button1 = createButton('b1', '-1 0 0', 'speed \nmode', (event) => {
+    const button1 = createButton('b1', '-1 0.2 0', 'speed \nmode', (event) => {
       console.log('Button state:', event.detail.state);
       const playerEl = document.querySelector('#player');
       const tmc = playerEl.components['terrain-movement'];
       tmc.running = event.detail.state;
     });
 
-    const button2 = createButton('b2', '0 0 0', 'fly \nmode', (event) => {
+    const button2 = createButton('b2', '0 0.2 0', 'fly \nmode', (event) => {
       console.log('Button state:', event.detail.state);
       const playerEl = document.querySelector('#player');
       const tmc = playerEl.components['terrain-movement'];
       tmc.flying = event.detail.state;
     });
 
-    const button3 = createButton('b3', '1 0 0', 'luna \nbounce', (event) => {
+    const button3 = createButton('b3', '1 0.2 0', 'luna \nbounce', (event) => {
       console.log('Button state:', event.detail.state);
       const playerEl = document.querySelector('#player');
       const tmc = playerEl.components['terrain-movement'];
       tmc.lunaBounce = event.detail.state;
     });
 
-    // Add buttons to panel
+    const button4 = createButton('b4', '-1 -0.6 0', 'snow', (event) => {
+      console.log('Button state:', event.detail.state);
+      const en = document.querySelector('#klaus').components['snow-system'];
+      en.data.snowing = event.detail.state;
+    });
+
+    // Add buttons to panel.
     panel.appendChild(button1);
     panel.appendChild(button2);
     panel.appendChild(button3);
+    panel.appendChild(button4);
 
-    // Add panel to HUD
+    // Add panel to HUD.
     hudEntity.appendChild(panel);
 
-    // Add HUD to scene
+    // Add HUD to scene.
     const sceneEl = document.querySelector('a-scene');
     sceneEl.appendChild(hudEntity);
   }
 });
 
-// Component to make an entity follow the camera
+// Component to make an entity follow the camera.
 AFRAME.registerComponent('follow-camera', {
   tick: function () {
     const camera = document.querySelector('#player');
@@ -103,8 +110,8 @@ AFRAME.registerComponent('follow-camera', {
     const worldPos = new THREE.Vector3();
     camera.object3D.getWorldPosition(worldPos);
     
-    // Position HUD in front of camera
-    const distance = -0.5; // Distance from camera
+    // Position HUD in front of camera.
+    const distance = -0.5; // Distance from camera.
     const cameraDirection = new THREE.Vector3();
     camera.object3D.getWorldDirection(cameraDirection);
     
@@ -115,7 +122,7 @@ AFRAME.registerComponent('follow-camera', {
   }
 });
 
-// Component to handle button states
+// Component to handle button states.
 AFRAME.registerComponent('toggle-button', {
   schema: {
     label: {type: 'string', default: 'Button'},
@@ -138,7 +145,7 @@ AFRAME.registerComponent('toggle-button', {
       if (!this.hud.visible) return;
       this.state = !this.state;
       this.updateVisuals();
-      // Emit event with new state
+      // Emit event with new state.
       this.el.emit('statechanged', { state: this.state });
     });
   },

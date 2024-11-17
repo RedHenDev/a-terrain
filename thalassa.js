@@ -1,6 +1,6 @@
-const entity = document.createElement('a-entity');
-entity.setAttribute('the-sea', '');
-document.querySelector('a-scene').appendChild(entity);
+const seaEntity = document.createElement('a-entity');
+seaEntity.setAttribute('the-sea', '');
+document.querySelector('a-scene').appendChild(seaEntity);
 
 AFRAME.registerComponent('the-sea', {
     init: function() {
