@@ -66,9 +66,9 @@ AFRAME.registerComponent('snow-system', {
         this.el.object3D.visible=true;
 
         // Pursue player.
-        this.bod.position.x += (this.pl.position.x - this.bod.position.x) * 0.03;
-        this.bod.position.z += (this.pl.position.z - this.bod.position.z) * 0.03;
-        this.bod.position.y += (this.pl.position.y - this.bod.position.y) * 0.03;
+        this.bod.position.x += (this.pl.position.x - this.bod.position.x) * 0.02;
+        this.bod.position.z += (this.pl.position.z - this.bod.position.z) * 0.02;
+        this.bod.position.y += (this.pl.position.y - this.bod.position.y) * 0.02;
 
 
       const positions = this.points.geometry.attributes.position.array;

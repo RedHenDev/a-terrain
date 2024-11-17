@@ -25,11 +25,11 @@ AFRAME.registerComponent('generate-hud', {
     // Create title text
     const titleText = document.createElement('a-text');
     titleText.setAttribute('id', 'hud-text');
-    titleText.setAttribute('value', 'settings');
+    titleText.setAttribute('value', 'menu');
     titleText.setAttribute('position', '0 0.75 0.01');
     titleText.setAttribute('scale', '1 1 1');
     titleText.setAttribute('align', 'center');
-    titleText.setAttribute('color', '#0FF');
+    titleText.setAttribute('color', '#DDD');
     panel.appendChild(titleText);
 
     // Function to create buttons

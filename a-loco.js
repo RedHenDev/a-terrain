@@ -194,9 +194,9 @@ AFRAME.registerComponent('terrain-movement', {
             if (!this.jumping){
                 position.y -= this.presentJumpSpeed;
                 // Moony = 1.01 Earthy = 1.1
-                this.presentJumpSpeed *= 1.04;
+                this.presentJumpSpeed *= 1.02;
             }
-            else if (this.jumping){
+            else if (this.jumping && this.moveZ==1){
                 position.y += this.presentJumpSpeed;
                 // Friction upward is 0.986.
                 this.presentJumpSpeed *= 0.986;
