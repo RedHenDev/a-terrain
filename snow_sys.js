@@ -59,7 +59,11 @@ AFRAME.registerComponent('snow-system', {
     tick: function(time, deltaTime) {
 
         
-        if (!this.data.snowing) return;
+        if (!this.data.snowing) {
+            this.el.object3D.visible=false;
+            return;
+        }
+        this.el.object3D.visible=true;
 
         // Pursue player.
         this.bod.position.x += (this.pl.position.x - this.bod.position.x) * 0.03;

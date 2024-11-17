@@ -61,7 +61,8 @@ AFRAME.registerComponent('terrain-movement', {
         const position = this.rig.position;
         const rotation = this.cam.rotation;
 
-        document.querySelector('#hud-text').setAttribute(
+        // Location of co-ords projected to a HUD.
+        document.querySelector('#micro-hud-text').setAttribute(
             'value',`${Math.floor(position.x*0.01)} ${Math.floor(position.z*0.01)}`);
         
         // Camera controls testing, for VR (and mobile).

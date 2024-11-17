@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Procedural Terrain hotrod</title>
+    <title>Procedural Terrain ho_ho_ho</title>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/aframe/1.4.2/aframe.min.js"></script> -->
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
 
@@ -13,8 +13,6 @@
 
     <!-- <script src="terrain-features.js"></script> -->
     
-    
-
 </head>
 <body>
     <!-- fog="type: linear; color: #0AA; far:320;" -->
@@ -50,15 +48,15 @@
                 <a-entity id="micro-hud">
                     <!-- Background panel -->
                     <!-- 0 2.6 -2 and 15, not 5 and 90. -->
-                    <a-plane position="3 -1 -5"
+                    <a-plane position="2.3 -0.8 -3"
                             width="1" height="0.3" 
-                            material="color: #A08; opacity: 0.8; depthTest: false">
+                            material="color: #088; opacity: 0.8; depthTest: true">
                         <!-- Title -->
-                        <a-text id="mico-hud-text" value="hi mom" 
-                                position="0 0 1" 
+                        <a-text id="micro-hud-text" value="hi mom" 
+                                position="-0.4 0.08 0.3" 
                                 scale="1 1 1" 
                                 align="center" 
-                                color="#0FF"></a-text>
+                                color="#FFF"></a-text>
                     </a-plane>
                 </a-entity>
                 <!-- end of micro-HUD -->
@@ -66,7 +64,7 @@
                 <a-entity
                             light="type: point;
                             color: #00AAFF;
-                            intensity: 0.3;
+                            intensity: 0.6;
                             distance: 0;
                             decay: 0;
                             castShadow: true"
@@ -74,7 +72,7 @@
                 <a-entity
                             light="type: point;
                             color: #00AAFF;
-                            intensity: 0.3;
+                            intensity: 0.6;
                             distance: 0;
                             decay: 0;
                             castShadow: true"
@@ -85,15 +83,15 @@
                     cursor="fuse:true;fuseTimeout:1000;"
                     raycaster="objects:.clickable;"
                     geometry="primitive:ring;radiusInner: 0.01; radiusOuter: 0.03"
-                    material="shader:flat;color:#070;
+                    material="shader:flat;color:#077;
                                 depthTest:true;
-                                transparent:false; opacity:0.8"
+                                transparent:false; opacity:0.4;"
                     position="0 0 -1;"
                     animation__fusing="property:scale;from:1 1 1;to:0 0 0;dur:1000;startEvents:fusing;"
                     animation__reset="property:scale;from:0 0 0;to: 1 1 1;dur:333;startEvents:mouseleave;"
                 ></a-entity></a-camera>
             <!-- Sky color="#87CEEB"-->
-        <a-sky  color="#87CEEB" >  </a-sky>
+        <a-sky  color="#00BBFF" >  </a-sky>
         <!-- Container entity that will rotate, creating day-night cycle -->
          <!-- set X value of 'to:' to 360 to work. -->
             <a-entity id="blinky"></a-entity>
@@ -139,9 +137,10 @@
 
         <!-- Here is where we load in obj models -->
 
+         <!-- Magical crystal Christmas tree. -->
         <a-obj-model    src="#ent" scale="23 23 23" 
                         material="color: #088; opacity: 0.6; depthTest: true" 
-                        position="440 -10 -432"></a-obj-model>
+                        position="440 -20 -432"></a-obj-model>
 
         <!-- <a-obj-model src="#edward" scale="4 4 4" position="84 12 -42" color="#999" 
                      animation="property: position; 

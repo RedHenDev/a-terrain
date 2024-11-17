@@ -4,8 +4,9 @@ document.querySelector('a-scene').appendChild(hudParent);
 
 AFRAME.registerComponent('generate-hud', {
   init: function() {
-    // Create main HUD entity
+    // Create main HUD entity.
     const hudEntity = document.createElement('a-entity');
+    const sceneEl = document.querySelector('a-scene');
     hudEntity.setAttribute('id', 'hud');
     hudEntity.setAttribute('follow-camera', '');
 
@@ -85,19 +86,33 @@ AFRAME.registerComponent('generate-hud', {
       en.data.snowing = event.detail.state;
     });
 
+    // External, non-Hud button.
+    const button5 = createButton('b5', '0 0 0', 'snow', (event) => {
+      console.log('Button state:', event.detail.state);
+      const en = document.querySelector('#klaus').components['snow-system'];
+      en.data.snowing = event.detail.state;
+    });
+    // Place button out in world, not on Hud. Note lower we append
+    // to scene and not Hud.
+    button5.setAttribute('position', "440 0 -432");
+    button5.setAttribute('scale', "12 12 12");
+
     // Add buttons to panel.
     panel.appendChild(button1);
     panel.appendChild(button2);
     panel.appendChild(button3);
     panel.appendChild(button4);
+    sceneEl.appendChild(button5);
 
     // Add panel to HUD.
     hudEntity.appendChild(panel);
 
     // Add HUD to scene.
-    const sceneEl = document.querySelector('a-scene');
     sceneEl.appendChild(hudEntity);
-  }
+    // Begin hidden.
+    hudEntity.object3D.visible=false;
+  },
+
 });
 
 // Component to make an entity follow the camera.
@@ -136,13 +151,13 @@ AFRAME.registerComponent('toggle-button', {
     // For checking whether active (visible or not)
     this.hud = document.querySelector("#hud").object3D;
     
-    // Set initial colors
+    // Set initial colours.
     this.updateVisuals();
     
-    // Add click handler
+    // Add click handler.
     this.el.addEventListener('click', () => {
-      // Disable if not active (i.e. not visible)
-      if (!this.hud.visible) return;
+      // Disable if not active (i.e. not visible).
+      if (!this.el.object3D.visible) return;
       this.state = !this.state;
       this.updateVisuals();
       // Emit event with new state.
