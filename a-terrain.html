@@ -12,10 +12,8 @@
     <script src="snow_sys.js"></script>
 
     <!-- <script src="terrain-features.js"></script> -->
-    <!-- Locomotion of player. -->
-    <script src='a-loco.js'></script>
-    <!-- HUD interactions for settings. -->
-    <script src="HUD_menu.js"></script>
+    
+    
 
 </head>
 <body>
@@ -36,10 +34,9 @@
         
             <a-asset-item id="great-hall" src="great_hall.glb"></a-asset-item>
 
-            <a-asset-item id="hogz" src="hw1.glb"></a-asset-item>
+            <!-- <a-asset-item id="hogz" src="hw1.glb"></a-asset-item> -->
 
-            <a-asset-item id="edward" src="shuttle.obj"
-                  ></a-asset-item>
+            <!-- <a-asset-item id="edward" src="shuttle.obj"></a-asset-item> -->
 
             <a-asset-item id="ent" src="tree.obj"></a-asset-item>
         
@@ -49,6 +46,22 @@
         <!-- Player with terrain locomotion system. -->
         <a-entity id="player" position="0 25 0" terrain-movement="height: 0.2">
             <a-camera id="cam" wasd-controls="enabled: false" look-controls>
+                <!-- micro HUD Interface -->
+                <a-entity id="micro-hud">
+                    <!-- Background panel -->
+                    <!-- 0 2.6 -2 and 15, not 5 and 90. -->
+                    <a-plane position="3 -1 -5"
+                            width="1" height="0.3" 
+                            material="color: #A08; opacity: 0.8; depthTest: false">
+                        <!-- Title -->
+                        <a-text id="mico-hud-text" value="hi mom" 
+                                position="0 0 1" 
+                                scale="1 1 1" 
+                                align="center" 
+                                color="#0FF"></a-text>
+                    </a-plane>
+                </a-entity>
+                <!-- end of micro-HUD -->
                 <!-- Headlights... -->
                 <a-entity
                             light="type: point;
@@ -117,8 +130,8 @@
         <a-entity snow-system="count: 300000; range: 40; height: 40"></a-entity>
 
         <!-- Experimental nonsense. Hi mom! -->
-        <script src="glow-spheres.js"></script>
-        <a-entity sphere-generator="interval: 1000; maxSpheres: 20"></a-entity>
+        <script defer src="glow-spheres.js"></script>
+        <a-entity sphere-generator="interval: 500; maxSpheres: 32" position="440 70 -432"></a-entity>
         <!-- <script src='asteroids.js'></script> -->
 
         <!-- Terrain -->
@@ -126,16 +139,18 @@
 
         <!-- Here is where we load in obj models -->
 
-        <a-obj-model src="#ent" scale="23 23 23" color="white" position="440 -10 -432"></a-obj-model>
+        <a-obj-model    src="#ent" scale="23 23 23" 
+                        material="color: #088; opacity: 0.6; depthTest: true" 
+                        position="440 -10 -432"></a-obj-model>
 
-        <a-obj-model src="#edward" scale="4 4 4" position="84 12 -42" color="#999" 
+        <!-- <a-obj-model src="#edward" scale="4 4 4" position="84 12 -42" color="#999" 
                      animation="property: position; 
                      dir: alternate;
                      dur: 2000;
                      easing: easeInOutSine;
                      loop: true;
                      from: 84 12 -42;
-                     to: 84 18 -42"></a-obj-model>
+                     to: 84 18 -42"></a-obj-model> -->
 
         <!-- A Monster Truck! -->
         <!-- <a-obj-model src="#grave-digger" scale="3 3 3" color="pink"></a-obj-model> -->
@@ -154,56 +169,13 @@
          <a-light type="ambient" color="#888"></a-light> 
         <!-- <a-light id="blinky" type="directional" position="1 1 1" color="#FFF" intensity="1"></a-light> -->
 
-        <!-- HUD Interface -->
-        <a-entity id="hud" follow-camera>
-            <!-- Background panel -->
-             <!-- 0 2.6 -2 and 15, not 5 and 90. -->
-            <a-plane position="0 4 -2" rotation="70 0 0"
-                    width="4" height="2" 
-                    material="color: #088; opacity: 0.8; depthTest: true">
-                
-                <!-- Button 1 -->
-                <a-box id="b1" position="-1 0 0" 
-                    scale="0.5 0.5 0.005"
-                    toggle-button="label: Speed Mode; initialState: false">
-                    <a-text value="speed \nmode" 
-                            position="0 0 1" 
-                            scale="1 1 1" 
-                            align="center"
-                            color="#fff"></a-text>
-                </a-box>
-                
-                <!-- Button 2 -->
-                <a-box id="b2" position="0 0 0" 
-                    scale="0.5 0.5 0.005"
-                    toggle-button="label: Speed Mode; initialState: false">
-                    <a-text value="fly \nmode" 
-                            position="0 0 1" 
-                            scale="1 1 1" 
-                            align="center"
-                            color="#fff"></a-text>
-                </a-box>
-                
-                <!-- Button 3 -->
-                <a-box id="b3" position="1 0 0" 
-                    scale="0.5 0.5 0.005"
-                    toggle-button="label: Speed Mode; initialState: false">
-                    <a-text value="luna \nbounce" 
-                            position="0 0 1" 
-                            scale="1 1 1" 
-                            align="center"
-                            color="#fff"></a-text>
-                </a-box>
-                
-                <!-- Title -->
-                <a-text id="hud-text" value="settings" 
-                        position="0 0.75 0.01" 
-                        scale="1 1 1" 
-                        align="center" 
-                        color="#0FF"></a-text>
-            </a-plane>
-        </a-entity>
 
     </a-scene>
+
+    <!-- HUD interactions for settings. NB before a-loco. -->
+    <script src="HUD_menu.js"></script>
+    <!-- Locomotion of player. -->
+    <script src='a-loco.js'></script>
+
 </body>
 </html>

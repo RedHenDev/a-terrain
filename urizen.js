@@ -116,19 +116,21 @@ function getTerrainHeight(x, z) {
     
     // Large features (mountains and valleys)
     // Original values 0.5 and 24.
-    height += noise.noise(xCoord * 0.1, 0, zCoord * 0.1) * 64;  // Increased from 10.
+    // General spread multiplier attempt.
+    const gSpread = 1;
+    height += noise.noise(xCoord * 0.1 * gSpread, 0, zCoord * 0.1 * gSpread) * 64;  // Increased from 10.
     
     // Medium features (hills)
-    height += noise.noise(xCoord * 1, 0, zCoord * 1) * 12;  // New medium scale.
+    height += noise.noise(xCoord * 1 * gSpread, 0, zCoord * 1 * gSpread) * 12;  // New medium scale.
     
     // Small features (rough terrain)
-    height += noise.noise(xCoord * 2, 0, zCoord * 2) * 6;
+    height += noise.noise(xCoord * 2 * gSpread, 0, zCoord * 2 * gSpread) * 6;
     
     // Micro features (texture)
-    height += noise.noise(xCoord * 4, 0, zCoord * 4) * 3;
+    height += noise.noise(xCoord * 4 * gSpread, 0, zCoord * 4 * gSpread) * 3;
     
     // Mountain generation with more variation
-    const mountainNoise = noise.noise(xCoord * 0.25, 0, zCoord * 0.25);
+    const mountainNoise = noise.noise(xCoord * 0.25 * gSpread, 0, zCoord * 0.25 * gSpread);
     if (mountainNoise > 0.5) {
         // Create more varied mountains.
         // Default 40, not 160.
@@ -138,7 +140,7 @@ function getTerrainHeight(x, z) {
     }
     
     // Add plateaus.
-    const plateauNoise = noise.noise(xCoord * 0.15, 0, zCoord * 0.15);
+    const plateauNoise = noise.noise(xCoord * 0.15 * gSpread, 0, zCoord * 0.15 * gSpread);
     if (plateauNoise > 0.7) {
         // Default 15..
         const plateauHeight = 15;
@@ -147,7 +149,7 @@ function getTerrainHeight(x, z) {
     }
     
     // Add valleys/canyons.
-    const valleyNoise = noise.noise(xCoord * 0.2, 0, zCoord * 0.2);
+    const valleyNoise = noise.noise(xCoord * 0.2 * gSpread, 0, zCoord * 0.2 * gSpread);
     if (valleyNoise < 0.2) {
         const valleyDepth = -10;
         const valleyBlend = (0.2 - valleyNoise) * 5; // 0 to 1
@@ -155,7 +157,7 @@ function getTerrainHeight(x, z) {
     }
 
     let biomes=true;
-    let erosion=true;
+    let erosion=false;
     let ridges=false;
     // Add biomes.
     if (biomes){
@@ -169,7 +171,7 @@ function getTerrainHeight(x, z) {
     }
     // Add erosion.
     if (erosion){
-        height += getErosionNoise(xCoord,zCoord);
+        height += getErosionNoise(xCoord, zCoord);
     }
     
     return height;
@@ -304,11 +306,11 @@ AFRAME.registerComponent('terrain-generator', {
             geometry,
             new THREE.MeshStandardMaterial({
                 // map: this.texture,
-                roughnessMap: this.texture,
+                //roughnessMap: this.texture,
                 // color: '#4CAF50',
                 vertexColors: true,
-                roughness: 0.8,
-                metalness: 0.4,
+                roughness: 0.6,
+                metalness: 0.1,
                 flatShading: true
             })
         );

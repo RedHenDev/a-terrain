@@ -33,8 +33,9 @@ AFRAME.registerComponent('snow-system', {
         // 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAD1JREFUeNpiYGBg2AvE/6H0PiCGsfdCxRgYoYL7kRTsB2EmJPZ+JAUwMXQF+6GaGJEl0E0gIAtkS4AEGAAj5QgXdpY9tQAAAABJRU5ErkJggg=='
     //   );
   
+      // Size of 0.025 is pretty good. Trying 0.08.
       const material = new THREE.PointsMaterial({
-        size: 0.025,
+        size: 0.08,
         map: texture,
         transparent: true,
         opacity: 0.9,
@@ -54,6 +55,9 @@ AFRAME.registerComponent('snow-system', {
     },
   
     tick: function(time, deltaTime) {
+
+        const snowing = false;
+        if (!snowing) return;
 
         // Pursue player.
         this.pl = document.querySelector('#player').object3D;

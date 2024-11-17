@@ -2,8 +2,8 @@ AFRAME.registerComponent('sphere-generator', {
     schema: {
         interval: {type: 'number', default: 2000}, // Time between sphere spawns in ms
         maxSpheres: {type: 'number', default: 50}, // Maximum number of spheres
-        minRadius: {type: 'number', default: 2},
-        maxRadius: {type: 'number', default: 5}
+        minRadius: {type: 'number', default: 0.2},
+        maxRadius: {type: 'number', default: 12}
     },
 
     init: function() {
@@ -48,7 +48,7 @@ AFRAME.registerComponent('sphere-generator', {
         const material = new THREE.MeshStandardMaterial({
             color: 0xffff00,
             emissive: 0xffff00,
-            emissiveIntensity: 1,
+            emissiveIntensity: 4,
             metalness: 0.8,
             roughness: 0.2
         });
