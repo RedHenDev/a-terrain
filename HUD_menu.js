@@ -91,6 +91,8 @@ AFRAME.registerComponent('generate-hud', {
       console.log('Button state:', event.detail.state);
       const en = document.querySelector('#klaus').components['snow-system'];
       en.data.snowing = event.detail.state;
+      // Remove button once activated. It worked!
+      sceneEl.remove(button5);
     });
     // Place button out in world, not on Hud. Note lower we append
     // to scene and not Hud.
