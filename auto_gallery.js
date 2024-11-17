@@ -22,8 +22,8 @@ function autoGalleryGo() {
                                         ${Math.random() * 200}
                                         ${Math.random() * 300 - 150}`);
         plane.setAttribute('rotation', `0 ${Math.random() * 359} 0`);
-        plane.setAttribute('width', '100');
-        plane.setAttribute('height', '100');
+        plane.setAttribute('width', '10');
+        plane.setAttribute('height', '10');
         plane.setAttribute('material', 'side: double');
         scene.appendChild(plane);
     });
