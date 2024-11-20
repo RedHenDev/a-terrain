@@ -2,10 +2,13 @@ AFRAME.registerComponent('terrain-grass-generator', {
     dependencies: ['terrain-generator'],
 
     schema: {
-        grassCount: { type: 'number', default: 1000 },
-        grassRange: { type: 'number', default: 88 },
-        minHeight: { type: 'number', default: 2.2 },
-        maxHeight: { type: 'number', default: 8.5 }
+        count: { type: 'number', default: 512 },
+        range: { type: 'number', default: 32 },
+        bladeWidth: { type: 'number', default: 0.09 },
+        minHeight: { type: 'number', default: 0.1 },
+        bladeHeight: { type: 'number', default: 7 },
+        windStrength: { type: 'number', default: 0.1 },
+        windTurbulence: { type: 'number', default: 0.05 }
     },
 
     init: function() {
@@ -24,7 +27,7 @@ AFRAME.registerComponent('terrain-grass-generator', {
             }
         });
         
-        // Also listen for scene removal
+        // Also listen for scene removal.
         const sceneEl = this.el.sceneEl;
         if (sceneEl) {
             sceneEl.addEventListener('destroy', this.cleanup);
@@ -54,18 +57,20 @@ AFRAME.registerComponent('terrain-grass-generator', {
     generateGrassForChunk: function(chunkX, chunkZ) {
         const key = `${chunkX},${chunkZ}`;
         
-        // Check if grass already exists for this chunk
+        // Check if grass already exists for this chunk.
         if (this.grassInstances.has(key)) {
             return;
         }
 
         const grassEntity = document.createElement('a-entity');
-        const randomizedRange = this.data.grassRange + 
-            (Math.random() * 2) - this.data.grassRange * 0.5;
+        const randomizedRange = this.data.range + 
+            (Math.random() * 2) - this.data.range * 0.5;
         
         grassEntity.setAttribute('grass-system', {
-            count: this.data.grassCount,
+            count: this.data.count,
             range: randomizedRange,
+            bladeWidth: this.data.bladeWidth,
+            bladeHeight: this.data.bladeHeight,
             windStrength: 0.1,
             windTurbulence: 0.05
         });

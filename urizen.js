@@ -1,11 +1,9 @@
 // Procedural terrain generation.
-
-
-
 let ws=prompt('Type a word or phrase to generate\n a new terrain.');
 //let ws='ihoooo';
 
 function getSeed(seedWord){
+    if (!seedWord) return 1;
     // 1. Basic djb2 hash - 
         // simple but effective for most cases.
         
@@ -19,7 +17,6 @@ function getSeed(seedWord){
             return hash >>> 0; 
         // Convert to unsigned 32-bit integer.
 }
-
 
 // Perlin noise implementation.
 const noise = {
@@ -177,28 +174,29 @@ function getTerrainHeight(x, z) {
     return height;
 }
 
+function getTerrainColor(height) {
+    // Basic height-based coloring
+    if (height < -11.5) return '#002222';
+    if (height < 0) return '#002200';     
+    if (height < 5) return '#002900';     
+    if (height < 10) return '#003000';    
+    if (height < 30) return '#003800';    
+    if (height < 50) return '#004400';    
+    if (height < 70) return '#6B6B6B';    
+    return '#FFFFFF';                     
+}
+
 // function getTerrainColor(height) {
-//     // Basic height-based coloring
-//     if (height < 0) return '#2039AA';     // Deep water
-//     if (height < 5) return '#3060FF';     // Shallow water
-//     if (height < 10) return '#DACAA0';    // Beach/Sand
-//     if (height < 30) return '#4CAF50';    // Grass/Plains
-//     if (height < 50) return '#276A29';    // Forest
-//     if (height < 70) return '#6B6B6B';    // Mountain
+//     // Basic height-based colouring.
+//     if (height < -11.5) return '#002222';
+//     if (height < 0) return '#AAA';     // Deep water
+//     if (height < 5) return '#BBB';     // Shallow water
+//     if (height < 10) return '#CCC';    // Beach/Sand
+//     if (height < 30) return '#DDD';    // Grass/Plains
+//     if (height < 50) return '#EEE';    // Forest
+//     if (height < 70) return '#FFFFFF';    // Mountain
 //     return '#FFFFFF';                     // Snow peaks
 // }
-
-function getTerrainColor(height) {
-    // Basic height-based colouring.
-    if (height < -11.5) return '#002222';
-    if (height < 0) return '#AAA';     // Deep water
-    if (height < 5) return '#BBB';     // Shallow water
-    if (height < 10) return '#CCC';    // Beach/Sand
-    if (height < 30) return '#DDD';    // Grass/Plains
-    if (height < 50) return '#EEE';    // Forest
-    if (height < 70) return '#FFFFFF';    // Mountain
-    return '#FFFFFF';                     // Snow peaks
-}
 
 // Terrain generator component.
 AFRAME.registerComponent('terrain-generator', {
@@ -213,8 +211,8 @@ AFRAME.registerComponent('terrain-generator', {
         // Start at -99,999 not 0,0, else gap behind subject.
         //this.worldSeed = this.hashseed(worldName);
         this.generateChunk(-99,999);
-        // Chunksize default 50, not 64.
-        this.chunkSize=88;
+        // Chunksize default 88.
+        this.chunkSize=72;
         // Default number of chunks to gen in one go is 1, not 3.
         this.chunksToGen=2;
 
