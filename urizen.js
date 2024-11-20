@@ -113,8 +113,8 @@ function getTerrainHeight(x, z) {
     
     // Large features (mountains and valleys)
     // Original values 0.5 and 24.
-    // General spread multiplier attempt.
-    const gSpread = 1;
+    // General spread multiplier attempt. Default 1.
+    const gSpread = 0.5;
     height += noise.noise(xCoord * 0.1 * gSpread, 0, zCoord * 0.1 * gSpread) * 64;  // Increased from 10.
     
     // Medium features (hills)
@@ -154,11 +154,11 @@ function getTerrainHeight(x, z) {
     }
 
     let biomes=true;
-    let erosion=false;
+    let erosion=true;
     let ridges=false;
     // Add biomes.
     if (biomes){
-        height += getBiomeHeight(x,z)
+        height += getBiomeHeight(x,z,gSpread)
     }
     // Add ridges.
     if (ridges){
@@ -365,9 +365,9 @@ AFRAME.registerComponent('terrain-generator', {
 
 });
 
-function getBiomeHeight(x, z) {
-    const xCoord = x * 0.05;
-    const zCoord = z * 0.05;
+function getBiomeHeight(x, z, gSpread) {
+    const xCoord = x * 0.05 * gSpread;
+    const zCoord = z * 0.05 * gSpread;
     
     // Biome selection
     const biomeNoise = noise.noise(xCoord * 0.002, 0, zCoord * 0.002);

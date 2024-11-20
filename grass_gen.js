@@ -66,6 +66,8 @@ AFRAME.registerComponent('terrain-grass-generator', {
         const randomizedRange = this.data.range + 
             (Math.random() * 2) - this.data.range * 0.5;
         
+        //grassEntity.setAttribute('plant-system', {
+        
         grassEntity.setAttribute('grass-system', {
             count: this.data.count,
             range: randomizedRange,

@@ -13,7 +13,7 @@ AFRAME.registerComponent('grass-system', {
         this.camera = document.querySelector('#player').object3D;
         this.transforms = [];
 
-        // Create grass blade geometry 
+        // Create grass blade geometry. 
         const bladeGeometry = new THREE.PlaneGeometry(
             this.data.bladeWidth, 
             this.data.bladeHeight + Math.random()*1,
