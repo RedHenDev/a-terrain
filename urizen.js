@@ -114,7 +114,7 @@ function getTerrainHeight(x, z) {
     // Large features (mountains and valleys)
     // Original values 0.5 and 24.
     // General spread multiplier attempt. Default 1.
-    const gSpread = 0.5;
+    const gSpread = 1;
     height += noise.noise(xCoord * 0.1 * gSpread, 0, zCoord * 0.1 * gSpread) * 64;  // Increased from 10.
     
     // Medium features (hills)
@@ -212,7 +212,7 @@ AFRAME.registerComponent('terrain-generator', {
         //this.worldSeed = this.hashseed(worldName);
         this.generateChunk(-99,999);
         // Chunksize default 88.
-        this.chunkSize=72;
+        this.chunkSize=69;
         // Default number of chunks to gen in one go is 1, not 3.
         this.chunksToGen=2;
 
