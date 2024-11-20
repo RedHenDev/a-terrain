@@ -1,6 +1,7 @@
 AFRAME.registerComponent('snow-system', {
     schema: {
-      count: {type: 'number', default: 1000},
+      count: {type: 'number', default: 10000},
+      flakeSize: {type: 'number', default: 0.08},
       range: {type: 'number', default: 25},
       height: {type: 'number', default: 30},
       snowing: {type: 'boolean', default: false}

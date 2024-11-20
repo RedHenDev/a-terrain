@@ -318,6 +318,19 @@ AFRAME.registerComponent('terrain-generator', {
         this.el.object3D.add(chunk);
         this.chunks.set(`${chunkX},${chunkZ}`, chunk);
         //this.el.setAttribute('shadow');
+
+        // Emit custom event after chunk generation
+        const event = new CustomEvent('chunk-generated', {
+            detail: { 
+                chunkX, 
+                chunkZ, 
+                chunk,
+                offsetX,
+                offsetZ
+            }
+        });
+        this.el.dispatchEvent(event);
+
     },
 
     tick: function() {
@@ -349,6 +362,9 @@ AFRAME.registerComponent('terrain-generator', {
             }
         }
     }
+
+
+
 });
 
 function getBiomeHeight(x, z) {
