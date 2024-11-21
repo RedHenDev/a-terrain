@@ -194,7 +194,7 @@ AFRAME.registerComponent('terrain-movement', {
         //this.lunaBounce=ridges;
         if (this.flying){
             // Pitch can affect y position...for flight :D
-            position.y += pitch*0.06 * Math.abs(this.velocity.z);
+            position.y += pitch*0.06 * Math.abs(this.velocity.z+this.velocity.x);
         } else if (this.lunaBounce) {
             if (!this.jumping){
                 position.y -= this.presentJumpSpeed;

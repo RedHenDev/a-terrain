@@ -99,7 +99,7 @@ AFRAME.registerComponent('generate-hud', {
     });
     // Place button out in world, not on Hud. Note lower we append
     // to scene and not Hud.
-    button5.setAttribute('position', "440 0 -432");
+    button5.setAttribute('position', "440 12 -365");
     button5.setAttribute('scale', "12 12 12");
 
     // Add buttons to panel.
@@ -169,6 +169,8 @@ AFRAME.registerComponent('toggle-button', {
       this.updateVisuals();
       // Emit event with new state.
       this.el.emit('statechanged', { state: this.state });
+      // Hide menu now.
+      this.hud.visible=false;
     });
   },
   
