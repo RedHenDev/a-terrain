@@ -80,11 +80,14 @@ AFRAME.registerComponent('generate-hud', {
       tmc.lunaBounce = event.detail.state;
     });
 
-    const button4 = createButton('b4', '-1 -0.6 0', 'snow', (event) => {
+    let button4;
+    if (worldSeed!=1){
+    button4 = createButton('b4', '-1 -0.6 0', 'snow', (event) => {
       console.log('Button state:', event.detail.state);
       const en = document.querySelector('#klaus').components['snow-system'];
       en.data.snowing = event.detail.state;
     });
+    }
 
     // External, non-Hud button.
     const button5 = createButton('b5', '0 0 0', 'snow', (event) => {
@@ -103,7 +106,9 @@ AFRAME.registerComponent('generate-hud', {
     panel.appendChild(button1);
     panel.appendChild(button2);
     panel.appendChild(button3);
+    if (worldSeed!=1){
     panel.appendChild(button4);
+    }
     sceneEl.appendChild(button5);
 
     // Add panel to HUD.
@@ -123,7 +128,7 @@ AFRAME.registerComponent('follow-camera', {
     const camera = document.querySelector('#player');
     if (!camera) return;
     
-    // Get camera world position
+    // Get camera world position.
     const worldPos = new THREE.Vector3();
     camera.object3D.getWorldPosition(worldPos);
     

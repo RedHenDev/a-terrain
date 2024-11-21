@@ -25,7 +25,7 @@ AFRAME.registerComponent('terrain-movement', {
         this.jumping=false;
         this.presentJumpSpeed=0.5;
         
-        // Setup key listeners for smoother movement
+        // Setup key listeners for smoother movement.
         this.keys = {
             ArrowUp: false,
             ArrowDown: false,
@@ -51,6 +51,11 @@ AFRAME.registerComponent('terrain-movement', {
                 this.keys.ShiftLeft = false;
             }
         });
+        document.addEventListener('keyup', (e) => {
+            if (e.code === 'Space') {
+                this.hud.visible=!this.hud.visible;
+            }
+        });
     },
 
     tick: function(time, delta) {
@@ -73,7 +78,7 @@ AFRAME.registerComponent('terrain-movement', {
             // Let's try a toggle left.
             const minZ=0.3;  // Default 0.2.
 			const maxZ=0.5; // Default 0.4.
-                if ((roll > minZ && roll < maxZ)||this.keys.a){
+                if ((roll > minZ && roll < maxZ)){
                     //console.log('rooling?');
             // Log time stamp. This will be for
             // toggling via head z rotations.
@@ -104,7 +109,7 @@ AFRAME.registerComponent('terrain-movement', {
         const RminZ=-0.3;  
         const RmaxZ=-0.5;
          //document.querySelector('#hud-text').setAttribute('value',`${roll}`);
-        if ((roll < RminZ && roll > RmaxZ)||this.keys.d){
+        if ((roll < RminZ && roll > RmaxZ)){
             //console.log('right toggle!');
          // Log time stamp. This will be for
          // toggling via head z rotations.
