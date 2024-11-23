@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Procedural Terrain blackbird</title>
+    <title>Procedural Terrain penguin</title>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/aframe/1.4.2/aframe.min.js"></script> -->
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
 
@@ -11,7 +11,9 @@
     <script src="grass_sys.js"></script>
     <script src="grass_gen.js"></script>
     <script src="plant_gen.js"></script>
+    <script src="tree_gen.js"></script>
     <script src="plant_sys.js"></script>
+    <script src="tree_sys.js"></script>
 
     <!-- Snow system. -->
     <script src="snow_sys.js"></script>
@@ -139,10 +141,13 @@
         <!-- <script src='asteroids.js'></script> -->
 
         <!-- Terrain -->
-        <a-entity   terrain-generator terrain-grass-generator terrain-plant-generator></a-entity>
-                    
+        <a-entity   terrain-generator 
+                    terrain-grass-generator 
+                    terrain-plant-generator
+                    terrain-forest-generator
+        ></a-entity>
 
-        <!-- <a-entity plant-system ></a-entity> -->
+        <!-- <a-entity forest-system ></a-entity> -->
 
         <!-- <a-entity position="0 0 0" grass-system="count: 10000; debug: true"></a-entity> -->
 

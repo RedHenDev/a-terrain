@@ -1,34 +1,40 @@
 AFRAME.registerComponent('forest-system', {
+    // Schema remains the same
     schema: {
-        count: { type: 'number', default: 200 },
-        range: { type: 'number', default: 150 },
-        minHeight: { type: 'number', default: 15 },
+        count: { type: 'number', default: 64 },
+        range: { type: 'number', default: 256 },
+        minHeight: { type: 'number', default: 12 },
         maxHeight: { type: 'number', default: 25 },
         minRadius: { type: 'number', default: 0.4 },
-        maxRadius: { type: 'number', default: 1.2 },
-        canopySize: { type: 'number', default: 8 }
+        maxRadius: { type: 'number', default: 8.2 },
+        canopySize: { type: 'number', default: 18 }
     },
 
     init: function() {
         this.transforms = [];
         const treeGeometry = this.createTreeGeometry();
 
-        // Create materials for trunk and canopy
-        const trunkMaterial = new THREE.MeshPhongMaterial({
+        // Enhanced materials with better lighting interaction
+        const trunkMaterial = new THREE.MeshStandardMaterial({
             color: '#3b2507',
             vertexColors: true,
-            flatShading: true
+            roughness: 0.89,
+            metalness: 0.1,
+            flatShading: false,
+            normalScale: new THREE.Vector2(1, 1)
         });
 
-        const canopyMaterial = new THREE.MeshPhongMaterial({
+        const canopyMaterial = new THREE.MeshStandardMaterial({
             color: '#1a4314',
             vertexColors: true,
             transparent: true,
             opacity: 0.9,
+            roughness: 0.7,
+            metalness: 0.0,
             flatShading: true
         });
 
-        // Create instanced meshes for trunks and canopies
+        // Rest of init remains the same
         this.instancedTrunks = new THREE.InstancedMesh(
             treeGeometry.trunkGeo,
             trunkMaterial,
@@ -48,74 +54,79 @@ AFRAME.registerComponent('forest-system', {
     },
 
     createTreeGeometry: function() {
-        // Create trunk geometry with detailed bark-like segments
+        // Improved trunk geometry creation
         const createTrunkGeometry = () => {
             const geometry = new THREE.BufferGeometry();
             const positions = [];
             const normals = [];
             const colors = [];
-            const segments = 12; // Number of sides for the trunk
-            const heightSegments = 8; // Vertical segments for bark detail
-            const baseRadius = 1; // Will be scaled by instance matrix
-            const barkRoughness = 0.1; // How much the bark "juts out"
+            const segments = 12;
+            const heightSegments = 12; // Increased for smoother trunk
+            const baseRadius = 1;
+            const barkRoughness = 0.15; // Increased bark detail
 
-            for (let h = 0; h < heightSegments; h++) {
+            // Create connected vertices for continuous trunk
+            for (let h = 0; h <= heightSegments; h++) {
                 const heightRatio = h / heightSegments;
-                const nextHeightRatio = (h + 1) / heightSegments;
-                const radius = baseRadius * (1 - heightRatio * 0.2); // Slight taper
-                const nextRadius = baseRadius * (1 - nextHeightRatio * 0.2);
-
-                for (let i = 0; i < segments; i++) {
+                const radius = baseRadius * (1 - heightRatio * 0.2);
+                
+                // Create ring of vertices
+                for (let i = 0; i <= segments; i++) {
                     const angle = (i / segments) * Math.PI * 2;
-                    const nextAngle = ((i + 1) / segments) * Math.PI * 2;
                     
-                    // Add random displacement for bark texture
-                    const barkOffset = Math.sin(heightRatio * 20 + angle * 4) * barkRoughness;
-                    const nextBarkOffset = Math.sin(heightRatio * 20 + nextAngle * 4) * barkRoughness;
-                    const upperBarkOffset = Math.sin(nextHeightRatio * 20 + angle * 4) * barkRoughness;
+                    // Add varied displacement for more natural bark
+                    const barkOffset = barkRoughness * (
+                        Math.sin(heightRatio * 20 + angle * 4) +
+                        Math.sin(heightRatio * 31 + angle * 7) * 0.5 +
+                        Math.sin(heightRatio * 13 + angle * 3) * 0.3
+                    );
                     
-                    // Calculate vertices
-                    const vertices = [
-                        // Bottom vertices
-                        [
-                            (radius + barkOffset) * Math.cos(angle),
-                            heightRatio * 10,
-                            (radius + barkOffset) * Math.sin(angle)
-                        ],
-                        [
-                            (radius + nextBarkOffset) * Math.cos(nextAngle),
-                            heightRatio * 10,
-                            (radius + nextBarkOffset) * Math.sin(nextAngle)
-                        ],
-                        // Top vertices
-                        [
-                            (nextRadius + upperBarkOffset) * Math.cos(angle),
-                            nextHeightRatio * 10,
-                            (nextRadius + upperBarkOffset) * Math.sin(angle)
-                        ]
-                    ];
-
-                    // Add triangles
-                    positions.push(...vertices[0], ...vertices[1], ...vertices[2]);
+                    const x = (radius + barkOffset) * Math.cos(angle);
+                    const y = heightRatio * 10;
+                    const z = (radius + barkOffset) * Math.sin(angle);
                     
-                    // Calculate normal
-                    const normal = calculateNormal(vertices[0], vertices[1], vertices[2]);
-                    normals.push(...normal, ...normal, ...normal);
-
-                    // Add colors with variation for bark texture
-                    const colorVariation = Math.random() * 0.2;
-                    const barkColor = [
+                    positions.push(x, y, z);
+                    
+                    // Calculate normal with bark variation
+                    const normal = new THREE.Vector3(x, barkOffset * 2, z).normalize();
+                    normals.push(normal.x, normal.y, normal.z);
+                    
+                    // Enhanced color variation for bark
+                    const noise = Math.sin(heightRatio * 50 + angle * 10) * 0.5 + 0.5;
+                    const colorVariation = 0.15 * noise;
+                    colors.push(
                         0.23 + colorVariation,
-                        0.15 + colorVariation,
-                        0.08 + colorVariation
-                    ];
-                    colors.push(...barkColor, ...barkColor, ...barkColor);
+                        0.15 + colorVariation * 0.7,
+                        0.08 + colorVariation * 0.5
+                    );
                 }
             }
 
+            // Create faces by connecting vertices
+            const indices = [];
+            const vertsPerRow = segments + 1;
+            
+            for (let h = 0; h < heightSegments; h++) {
+                for (let i = 0; i < segments; i++) {
+                    const current = h * vertsPerRow + i;
+                    const next = current + 1;
+                    const nextRow = (h + 1) * vertsPerRow + i;
+                    const nextRowNext = nextRow + 1;
+
+                    // Create two triangles for each quad
+                    indices.push(
+                        current, next, nextRow,
+                        next, nextRowNext, nextRow
+                    );
+                }
+            }
+
+            geometry.setIndex(indices);
             geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
             geometry.setAttribute('normal', new THREE.Float32BufferAttribute(normals, 3));
             geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+            
+            geometry.computeVertexNormals(); // Compute smooth normals
             return geometry;
         };
 
