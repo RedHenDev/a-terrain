@@ -1,19 +1,20 @@
 const hudParent = document.createElement('a-entity');
 hudParent.setAttribute('generate-hud', '');
 document.querySelector('a-scene').appendChild(hudParent);
+//document.querySelector('#player').appendChild(hudParent);
 
 AFRAME.registerComponent('generate-hud', {
   init: function() {
     // Create main HUD entity.
     const hudEntity = document.createElement('a-entity');
     const sceneEl = document.querySelector('a-scene');
+    const playerEl = document.querySelector('#player');
     hudEntity.setAttribute('id', 'hud');
-    hudEntity.setAttribute('follow-camera', '');
 
     // Create background panel (plane)
     const panel = document.createElement('a-plane');
-    panel.setAttribute('position', '0 4 -2');
-    panel.setAttribute('rotation', '70 0 0');
+    panel.setAttribute('position', '0 0 -3');
+    panel.setAttribute('rotation', '0 0 0');
     panel.setAttribute('width', '4');
     panel.setAttribute('height', '2');
     panel.setAttribute('material', {
@@ -99,8 +100,11 @@ AFRAME.registerComponent('generate-hud', {
     });
     // Place button out in world, not on Hud. Note lower we append
     // to scene and not Hud.
-    button5.setAttribute('position', "440 12 -365");
+    //button5.setAttribute('position', "440 12 -365");
+    button5.setAttribute('position', "94 6 -1044");
+    button5.setAttribute('buttonText', 'position', '0 0 0.01');
     button5.setAttribute('scale', "12 12 12");
+    button5.setAttribute('look-at','targetID:#player;rSpeed:1');
 
     // Add buttons to panel.
     panel.appendChild(button1);
@@ -115,33 +119,13 @@ AFRAME.registerComponent('generate-hud', {
     hudEntity.appendChild(panel);
 
     // Add HUD to scene.
-    sceneEl.appendChild(hudEntity);
+    //sceneEl.appendChild(hudEntity);
+    playerEl.appendChild(hudEntity);
     // Begin hidden.
     hudEntity.object3D.visible=false;
-  },
-
-});
-
-// Component to make an entity follow the camera.
-AFRAME.registerComponent('follow-camera', {
-  tick: function () {
-    const camera = document.querySelector('#player');
-    if (!camera) return;
-    
-    // Get camera world position.
-    const worldPos = new THREE.Vector3();
-    camera.object3D.getWorldPosition(worldPos);
-    
-    // Position HUD in front of camera.
-    const distance = -0.5; // Distance from camera.
-    const cameraDirection = new THREE.Vector3();
-    camera.object3D.getWorldDirection(cameraDirection);
-    
-    this.el.object3D.position.copy(worldPos).add(cameraDirection.multiplyScalar(distance));
-    
-    // Make HUD face camera
-    this.el.object3D.lookAt(worldPos);
+    hudEntity.object3D.position.y=999;
   }
+
 });
 
 // Component to handle button states.
@@ -171,6 +155,7 @@ AFRAME.registerComponent('toggle-button', {
       this.el.emit('statechanged', { state: this.state });
       // Hide menu now.
       this.hud.visible=false;
+      this.hud.position.y=999;
     });
   },
   

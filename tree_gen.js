@@ -2,13 +2,12 @@ AFRAME.registerComponent('terrain-forest-generator', {
     dependencies: ['terrain-generator'],
 
     schema: {
-        count: { type: 'number', default: 1 },
-        range: { type: 'number', default: 128 },
-        minHeight: { type: 'number', default: 12 },
-        maxHeight: { type: 'number', default: 25 },
-        minRadius: { type: 'number', default: 4 },
-        maxRadius: { type: 'number', default: 8.2 },
-        canopySize: { type: 'number', default: 18 }
+        count: { type: 'number', default: 32 },
+        range: { type: 'number', default: 64 },
+        minHeight: { type: 'number', default: 4 },
+        maxHeight: { type: 'number', default: 22 },
+        windStrength: { type: 'number', default: 0 },
+        windTurbulence: { type: 'number', default: 0 }
     },
 
     init: function() {
@@ -16,7 +15,7 @@ AFRAME.registerComponent('terrain-forest-generator', {
         this.grassInstances = new Map();
         this.player = document.querySelector('#player').object3D;
         
-        // Bind event handlers
+        // Bind event handlers.
         this.boundChunkHandler = this.onChunkGenerated.bind(this);
         
         // Bind the cleanup function to component/scene events
@@ -51,6 +50,8 @@ AFRAME.registerComponent('terrain-forest-generator', {
 
     onChunkGenerated: function(event) {
         const { chunkX, chunkZ } = event.detail;
+        // Don't make trees at starting position.
+        if ((chunkX==0 && chunkZ==0)||chunkZ%2==0) return;
         this.generateGrassForChunk(chunkX, chunkZ);
     },
 
@@ -68,14 +69,13 @@ AFRAME.registerComponent('terrain-forest-generator', {
         
         //grassEntity.setAttribute('plant-system', {
         console.log('planting forest');
-        grassEntity.setAttribute('forest-system', {
+        grassEntity.setAttribute('tree-system', {
             count: this.data.count,
-            range: randomizedRange,
+            range: this.data.range,
             minHeight: this.data.minHeight,
             maxHeight: this.data.maxHeight,
-            minRadius: this.data.minRadius,
-            maxRadius: this.data.maxRadius,
-            canopySize: this.data.canopySize
+            windStrength: this.data.windStrength,
+            windTurbulence: this.data.windTurbulence
         });
 
         const chunkSize = this.terrainGenerator.chunkSize;
