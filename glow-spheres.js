@@ -3,14 +3,15 @@ AFRAME.registerComponent('sphere-generator', {
         interval: {type: 'number', default: 2000}, // Time between sphere spawns in ms
         maxSpheres: {type: 'number', default: 50}, // Maximum number of spheres
         minRadius: {type: 'number', default: 0.2},
-        maxRadius: {type: 'number', default: 12}
+        maxRadius: {type: 'number', default: 12},
+        life: {type: 'number', default: 4} // Lifetime in seconds.
     },
 
     init: function() {
         this.spheres = [];
         this.time = 0;
         
-        // Create a glow material
+        // Create a glow material.
         this.glowMaterial = new THREE.ShaderMaterial({
             uniforms: {
                 c: { type: "f", value: 0.2 },
@@ -72,8 +73,8 @@ AFRAME.registerComponent('sphere-generator', {
         entity.setAttribute('position', `${sphere.position.x} ${sphere.position.y+3} ${sphere.position.z}`);
         entity.setAttribute('type','point');
         entity.setAttribute('color', '#880');
-        document.querySelector('a-scene').appendChild(entity);
-        setTimeout(document.querySelector('a-scene').removeChild(entity), 5000);
+        sphere.appendChild(entity);
+        //setTimeout(document.querySelector('a-scene').removeChild(entity), 5000);
         */
 
         // Add random velocity
@@ -86,12 +87,13 @@ AFRAME.registerComponent('sphere-generator', {
         this.el.object3D.add(sphere);
         this.spheres.push({
             mesh: sphere,
-            life: 10 // Life in seconds
+            life: this.data.life // Life in seconds.
         });
     },
 
     tick: function(time, delta) {
         this.time += delta;
+        const ds = delta * 0.001; // Converts delta to seconds.
 
         // Create new sphere if interval has passed and under max
         if (this.time > this.data.interval && this.spheres.length < this.data.maxSpheres) {
@@ -102,7 +104,7 @@ AFRAME.registerComponent('sphere-generator', {
         // Update spheres
         for (let i = this.spheres.length - 1; i >= 0; i--) {
             const sphere = this.spheres[i];
-            sphere.life -= delta / 1000;
+            sphere.life -= ds;
 
             if (sphere.life <= 0) {
                 // Remove sphere
@@ -111,8 +113,8 @@ AFRAME.registerComponent('sphere-generator', {
             } else {
                 // Update position
                 const velocity = sphere.mesh.userData.velocity;
-                sphere.mesh.position.add(velocity.clone().multiplyScalar(delta / 1000));
-                velocity.y -= 9.8 * delta / 1000; // Simple gravity
+                sphere.mesh.position.add(velocity.clone().multiplyScalar(ds));
+                velocity.y -= 9.8 * ds; // Simple gravity
             }
         }
     }

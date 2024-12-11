@@ -62,6 +62,7 @@ AFRAME.registerComponent('snow-system', {
         
         if (!this.data.snowing) {
             this.el.object3D.visible=false;
+            this.el.object3D.position=this.pl.position;
             return;
         }
         this.el.object3D.visible=true;
@@ -73,11 +74,12 @@ AFRAME.registerComponent('snow-system', {
 
 
       const positions = this.points.geometry.attributes.position.array;
-      
+      const dt = deltaTime*0.001;
+
       for (let i = 0; i < this.data.count; i++) {
         // Update positions.
-        positions[i * 3 + 1] += this.velocities[i].y * deltaTime / 1000;
-        positions[i * 3] += this.velocities[i].x * deltaTime / 1000;
+        positions[i * 3 + 1] += this.velocities[i].y * dt;
+        positions[i * 3] += this.velocities[i].x * dt;
         
         // Reset particles that fall below ground.
         if (positions[i * 3 + 1]+this.pl.position.y <= -12) {
