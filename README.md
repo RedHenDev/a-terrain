@@ -9,6 +9,15 @@ attributions
 
 To Do & ideas
 
+*these below from March 16 2025
+
+-refac look_at yclamping ported to ai-loco
+
+-dev allow ai-loco to fly up and down and adjust rotation when
+incorrect model rotation
+
+*below before March 2025
+
 DONE -feature ai dedicated movement component (rather than spaghetti in a-loco)
 
 -feature cross-platform controls (menu button on screen?)

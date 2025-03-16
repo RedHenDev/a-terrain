@@ -47,6 +47,7 @@
             <a-asset-item id="mArm" src="./assets/snowdillo.gltf"></a-asset-item>
             <!-- <a-asset-item id="mSni" src="./assets/sniffler2.obj"></a-asset-item> -->
             <a-asset-item id="mGhast" src="./assets/ghast_white.gltf"></a-asset-item>
+            <a-asset-item id="mEnder" src="./assets/ender.gltf"></a-asset-item>
             <a-asset-item id="mMud" src="./assets/texTruck.glb"></a-asset-item>
         </a-assets>
 
@@ -189,6 +190,15 @@
                         position="-6 12 6"
                         ai-locomotion="height:0.1;speed:0.45;"
                         look-at="targetID:#player; rSpeed:0.8;flee:true;"
+                        >
+        </a-gltf-model>
+
+        <a-gltf-model   id="ender"
+                        src="#mEnder" scale="1 1 1" 
+                        color="#000" 
+                        position="-6 80 6"
+                        ai-locomotion="height:80;speed:0.45;"
+                        look-at="targetID:#player;rSpeed:0.8;flee:false;"
                         >
         </a-gltf-model>
 
