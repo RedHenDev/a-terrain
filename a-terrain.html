@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Amèlie's Christmas Land</title>
+    <title>jojo_world</title>
 
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
 
@@ -41,12 +41,7 @@
         <!-- Preload our assets, such as the Monster Truck :) -->
             <!-- <a-asset-item id="grave-digger" src="graveDigger.obj"></a-asset-item> -->
         
-            <a-asset-item id="great-hall" src="great_hall.glb"></a-asset-item>
-
-            <a-asset-item id="ent" src="tree.obj"></a-asset-item>
-            <a-asset-item id="gbox" src="./assets/gift.obj"></a-asset-item>
-            <img crossorigin="anonymous" id="iQueen" src="./assets/snowQueen.png"></img>
-            <img crossorigin="anonymous" id="iQcode" src="./assets/aww_24.png"></img>
+            <img crossorigin="anonymous" id="iJoDraw" src="./assets/drawing_1.jpg"></img>
 
             <!-- <a-asset-item id="iArm" src="./assets/armadillo.png"></a-asset-item> -->
             <a-asset-item id="mArm" src="./assets/snowdillo.gltf"></a-asset-item>
@@ -68,7 +63,7 @@
                                 material="color: #0AA; opacity: 0.1; depthTest: false">
                                 <a-text  
                                     id="micro-hud-text"
-                                    value="Amèlie Land"
+                                    value="Jojo land"
                                     position="0 0 0.01"
                                     scale="1 1 1" 
                                     align="center"
@@ -162,15 +157,6 @@
 
         <!-- Here is where we load in obj models -->
 
-        <!-- Magical crystal Christmas tree. -->
-        <a-obj-model    src="#ent" scale="23 23 23"
-                        material="color: #088; opacity: 0.9; depthTest: true" 
-                        position="440 -32 -420"></a-obj-model>
-        <!-- Experimental nonsense. Hi mum! -->
-        <script defer src="glow-spheres.js"></script>
-        <a-entity   sphere-generator="interval: 500; maxSpheres: 32" 
-                    position="440 100 -400"></a-entity>
-
         <!-- mobs! -->
         <a-gltf-model   id="monty"
                         src="#mArm" scale="3 3 3" 
@@ -228,32 +214,10 @@
         <!-- <a-obj-model src="#grave-digger" scale="3 3 3" color="pink"></a-obj-model> -->
         <!-- <a-obj-model src="#grave-digger" position ="64 1.8 -42" scale="0.03 0.03 0.03" color="white"></a-obj-model> -->
 
-        <a-entity 
-                    id="petite-hall"
-                    gltf-model="#great-hall"
-                    position ="0 0 0" 
-                    scale="1 1 1"
-                    rotation="0 0 0"></a-entity>
-
-        <script> 
-                
-                const hallHeight=-6.8;//getTerrainHeight(0,128);
-                document.querySelector("#petite-hall").setAttribute
-                    ('position',`88 ${hallHeight} 64`); 
-        </script>
-        <a-entity   sphere-generator="interval: 50; maxSpheres: 320; 
-                                        maxRadius: 0.4" 
-                    position="88 0 64"></a-entity>
-
-        <a-plane    src="#iQueen" 
+        <a-plane    src="#iJoDraw" 
                     position="0 12 -42" 
                     scale="40 40 0"
                     material="side: double"></a-plane>
-
-        <a-entity   gltf-model="#great-hall"
-                    position ="0 314 -1488" 
-                    scale="62 62 62"
-                    rotation="0 0 0"></a-entity>
 
         <!-- Lighting -->
         <a-light type="ambient" color="#888" intensity="0.6"></a-light> 
@@ -266,7 +230,6 @@
     <script src='a-loco.js'></script>
     <script src="q-markers.js"></script>
     <script src="qman.js"></script>
-    <!-- <script src="n_urizen.js"></script> -->
 
 </body>
 </html>
