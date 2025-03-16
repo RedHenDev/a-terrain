@@ -32,7 +32,7 @@
 </head>
 <body>
     <!-- fog="type: linear; color: #0AA; far:320;" -->
-    <a-scene fog="type: linear; color: #0AA; far:512;">
+    <a-scene fog="type: linear; color: #00CBFF; far:812;">
 
     <script src="thalassa.js"></script>
 
@@ -45,8 +45,8 @@
 
             <!-- <a-asset-item id="iArm" src="./assets/armadillo.png"></a-asset-item> -->
             <a-asset-item id="mArm" src="./assets/snowdillo.gltf"></a-asset-item>
-            <a-asset-item id="mSni" src="./assets/sniffler2.obj"></a-asset-item>
-
+            <!-- <a-asset-item id="mSni" src="./assets/sniffler2.obj"></a-asset-item> -->
+            <a-asset-item id="mGhast" src="./assets/ghast.gltf"></a-asset-item>
             <a-asset-item id="mMud" src="./assets/texTruck.glb"></a-asset-item>
         </a-assets>
 
@@ -103,15 +103,15 @@
                     animation__reset="property:scale;from:0 0 0;to: 1 1 1;dur:333;startEvents:mouseleave;"
                 ></a-entity></a-camera>
             <!-- Sky color="#87CEEB"-->
-        <a-sky  color="#00BBFF" >  </a-sky>
+        <a-sky  color="#00CBFF" >  </a-sky>
         <!-- Container entity that will rotate, creating day-night cycle -->
         <!-- set X value of 'to:' to 360 to work. -->
-            <a-entity id="blinky"
+            <!-- <a-entity id="blinky"
             animation="property: rotation;
                         dur: 40000;
                         easing: linear;
                         loop: true;
-                        to: 360 0 0" >
+                        to: 360 0 0" > -->
                         
 
         <!-- Point light positioned away from the centre. -->
@@ -153,11 +153,21 @@
         <!-- terrain-forest-generator -->
 
         <!-- Quest system -->
-        <a-entity quest-manager="questFile: quests.txt"></a-entity>
+        <!-- <a-entity quest-manager="questFile: quests.txt"></a-entity> -->
 
         <!-- Here is where we load in obj models -->
 
         <!-- mobs! -->
+        <a-entity   gltf-model="#mGhast"
+        id="ghast"
+        scale="4 4 4"     
+        position="0 16 -20"
+        ai-locomotion="height:12;speed:0.45;"
+        look-at="targetID:#player; rSpeed:0.8;flee:false;"    
+        >
+        </a-entity>
+
+
         <a-gltf-model   id="monty"
                         src="#mArm" scale="3 3 3" 
                         color="#D0A" 
@@ -182,19 +192,18 @@
                         >
         </a-gltf-model>
 
-        <a-obj-model    id="sniffler"
+        <!-- <a-obj-model    id="sniffler"
                         src="#mSni" scale="4 4 4" 
                         color="#EEB" 
                         position="12 6 -19"
-                        material="src: #iQcode"
                         ai-locomotion="height:6;speed:0.3;aidrive:true;flee:false;target:#baby2"
                         >
-        </a-obj-model>
+        </a-obj-model> -->
 
         <a-entity   gltf-model="#mMud"
                     id="spider-truck"
                     scale="4 4 4"     
-                    position="0 6 -20"
+                    position="0 64 -20"
                     >
         </a-entity>
 
@@ -215,12 +224,12 @@
         <!-- <a-obj-model src="#grave-digger" position ="64 1.8 -42" scale="0.03 0.03 0.03" color="white"></a-obj-model> -->
 
         <a-plane    src="#iJoDraw" 
-                    position="0 12 -42" 
+                    position="0 12 -420" 
                     scale="40 40 0"
                     material="side: double"></a-plane>
 
         <!-- Lighting -->
-        <a-light type="ambient" color="#888" intensity="0.6"></a-light> 
+        <a-light type="ambient" color="#888" intensity="1.0"></a-light> 
         <!-- <a-light id="blinkyAmb" type="directional" position="1 1 1" color="#FFF" intensity="1"></a-light> -->
     </a-scene>
 
@@ -228,8 +237,8 @@
     <script src="HUD_menu.js"></script>
     <!-- Locomotion of player. -->
     <script src='a-loco.js'></script>
-    <script src="q-markers.js"></script>
-    <script src="qman.js"></script>
+    <!-- <script src="q-markers.js"></script> -->
+    <!-- <script src="qman.js"></script> -->
 
 </body>
 </html>

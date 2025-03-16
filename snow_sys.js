@@ -30,7 +30,7 @@ AFRAME.registerComponent('snow-system', {
       
       // Create material with custom texture
       const texture = new THREE.TextureLoader().load(
-        'flake_1.png'
+        './assets/flake_1.png'
       );
         // 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAD1JREFUeNpiYGBg2AvE/6H0PiCGsfdCxRgYoYL7kRTsB2EmJPZ+JAUwMXQF+6GaGJEl0E0gIAtkS4AEGAAj5QgXdpY9tQAAAABJRU5ErkJggg=='
     //   );
