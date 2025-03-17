@@ -1,7 +1,7 @@
 // LookAt component.
 AFRAME.registerComponent('look-at', {
     schema: {
-        targetID: {type: 'string', default: '#play'},
+        targetID: {type: 'string', default: '#player'},
         rSpeed: {type: 'number', default: 1},
         clampY: {type: 'boolean', default: true},
         flee: {type: 'boolean', default: false}
