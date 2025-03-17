@@ -3,9 +3,9 @@ AFRAME.registerComponent('terrain-forest-generator', {
 
     schema: {
         count: { type: 'number', default: 32 },
-        range: { type: 'number', default: 64 },
-        minHeight: { type: 'number', default: 4 },
-        maxHeight: { type: 'number', default: 22 },
+        range: { type: 'number', default: 88 },
+        minHeight: { type: 'number', default: 7 },
+        maxHeight: { type: 'number', default: 70 },
         windStrength: { type: 'number', default: 0 },
         windTurbulence: { type: 'number', default: 0 }
     },
@@ -68,7 +68,7 @@ AFRAME.registerComponent('terrain-forest-generator', {
             (Math.random() * 2) - this.data.range * 0.5;
         
         //grassEntity.setAttribute('plant-system', {
-        console.log('planting forest');
+        //console.log('planting forest');
         grassEntity.setAttribute('tree-system', {
             count: this.data.count,
             range: this.data.range,
@@ -106,7 +106,7 @@ AFRAME.registerComponent('terrain-forest-generator', {
                 grassEntity.parentNode.removeChild(grassEntity);
             }
         } catch (e) {
-            console.warn('Error removing tree chunk:', e);
+            //console.warn('Error removing tree chunk:', e);
         }
 
         // Remove from our instances map

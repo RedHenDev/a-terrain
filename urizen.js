@@ -159,7 +159,7 @@ function getTerrainHeight(x, z) {
 
     let biomes=true;
     let erosion=true;
-    let ridges=false;
+    let ridges=true;
     // Add biomes.
     if (biomes){
         height += getBiomeHeight(x,z,gSpread)
@@ -220,7 +220,8 @@ AFRAME.registerComponent('terrain-generator', {
         //this.worldSeed = this.hashseed(worldName);
         this.generateChunk(-99,999);
         // Chunksize default 88.
-        this.chunkSize=204;
+        // 204.
+        this.chunkSize=128;
         // Default number of chunks to gen in one go is 1, not 3.
         this.chunksToGen=2;
 

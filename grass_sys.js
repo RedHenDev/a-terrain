@@ -1,7 +1,7 @@
 AFRAME.registerComponent('grass-system', {
     schema: {
-        count: { type: 'number', default: 44 },
-        range: { type: 'number', default: 204 },
+        count: { type: 'number', default: 888 },
+        range: { type: 'number', default: 128 },
         bladeWidth: { type: 'number', default: 4 },
         minHeight: { type: 'number', default: 0.1 },
         bladeHeight: { type: 'number', default: 2 },

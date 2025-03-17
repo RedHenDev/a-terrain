@@ -130,6 +130,7 @@ AFRAME.registerComponent('tree-system', {
             }
         };
 
+        // Default 100 & 40.
         const treeHeight = 100;
         const baseWidth = 40;
         
