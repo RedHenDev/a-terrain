@@ -9,7 +9,7 @@
     <script src="urizen.js"></script>
 
     <!-- For scripts wanting to add a look-at behaviour. -->
-    <script src="look_at.js"></script>
+    <!-- <script src="look_at.js"></script> -->
     
     <!-- Fields of grass... -->
     <script src="grass_sys.js"></script>
@@ -163,32 +163,32 @@
         id="ghast"
         scale="4 4 4"     
         position="0 16 -20"
-        ai-locomotion="height:12;speed:0.45;targetID:#player;rSpeed:0.8;flee:false;"    
+        ai-locomotion="height:12;speed:0.7;targetID:#player;
+        rSpeed:0.9;"    
         >
         </a-entity>
-
 
         <a-gltf-model   id="monty"
                         src="#mArm" scale="3 3 3" 
                         color="#D0A" 
                         position="100 12 -18"
-                        ai-locomotion
-                        look-at="targetID:#player; rSpeed:0.8"
+                        ai-locomotion="targetID:#player;rSpeed:0.8"
                         >
         </a-gltf-model>
-        <a-gltf-model    id="baby"
+        <a-gltf-model   id="baby"
                         src="#mArm" scale="1 1 1" 
                         color="#803" 
                         position="100 12 -6"
-                        ai-locomotion="height:0.3;speed:0.3;aidrive:true;flee:false;target:#monty"
+                        ai-locomotion="height:0.3;speed:0.3;
+                        flee:false;targetID:#monty"
                         >
         </a-gltf-model>
-        <a-gltf-model    id="baby2"
+        <a-gltf-model   id="baby2"
                         src="#mArm" scale="0.6 0.6 0.6" 
                         color="#0CC" 
                         position="-6 12 6"
-                        ai-locomotion="height:0.1;speed:0.45;"
-                        look-at="targetID:#player; rSpeed:0.8;flee:true;"
+                        ai-locomotion="height:0.1;speed:0.45;
+                        targetID:#player; rSpeed:0.8;flee:true;adjustY:3.14;"
                         >
         </a-gltf-model>
 
@@ -196,8 +196,7 @@
                         src="#mEnder" scale="1 1 1" 
                         color="#000" 
                         position="-6 80 6"
-                        ai-locomotion="height:80;speed:0.45;"
-                        look-at="targetID:#player;rSpeed:0.8;flee:false;"
+                        ai-locomotion="height:80;speed:0.45;targetID:#player;rSpeed:0.8;flee:true;"
                         >
         </a-gltf-model>
 
@@ -234,7 +233,7 @@
         <!-- ></a-obj-model> -->
         <a-obj-model src="#grave-digger" position ="64 1.8 -42" scale="0.03 0.03 0.03" color="white"
         ai-locomotion="height:1.2;speed:1;wiggle:false;
-        aidrive:true;flee:false;target:#player"
+        flee:true;targetID:#player;adjustY:1.57"
         >
 
         </a-obj-model>

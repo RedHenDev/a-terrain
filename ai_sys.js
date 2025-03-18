@@ -3,18 +3,17 @@ AFRAME.registerComponent('ai-locomotion', {
         speed: {type: 'number', default: 0.6},
         height: {type: 'number', default: 0.6},
         wiggle: {type: 'boolean', default: true},
-        flee: {type: 'boolean', default: true},
-        target: {type: 'string', default: '#player'},
-        aidrive: {type: 'boolean', default: true},
+        flee: {type: 'boolean', default: false},
         targetID: {type: 'string', default: '#player'},
         rSpeed: {type: 'number', default: 1},
-        clampY: {type: 'boolean', default: true}
+        clampY: {type: 'boolean', default: true},
+        adjustY: {type: 'number', default: 0}
 
     },
 
     init: function() {
         this.rig = this.el.object3D;
-        this.target = document.querySelector(this.data.target).object3D;
+        //this.target = document.querySelector(this.data.target).object3D;
 
         // These below taken from LookAt. Have changed
         // this.target to this.targetID to avoid clash above.
@@ -26,15 +25,20 @@ AFRAME.registerComponent('ai-locomotion', {
 
     turn: function() {
         //this.rig.lookAt(this.target.position);
+        
         // Create a direction vector from object to target
         const direction = new THREE.Vector3();
-        direction.subVectors(this.target.position, 
+        direction.subVectors(this.targetID.position, 
             this.object.position).normalize();
 
         // First, get the angle in the XZ plane (yaw).
         let fleep=0;
-        if (this.data.flee) fleep = 180;
-        const yaw = Math.atan2(direction.x, direction.z) + fleep;
+        //if (this.data.flee) fleep = 180;
+        const yaw = 
+        Math.atan2(direction.x, direction.z) + fleep
+            + this.data.adjustY;
+        // AdjustY here added for models whose forward direction
+        // not correct, or just in case otherwise needed.
 
         // Then get the angle from the ground plane (pitch).
         const pitch = Math.atan2(direction.y, Math.sqrt(direction.x * direction.x + direction.z * direction.z));
@@ -65,31 +69,15 @@ AFRAME.registerComponent('ai-locomotion', {
         const my = getTerrainHeight(mx,mz);
         this.rig.position.y = my+this.data.height;
 
-        if (this.data.aidrive){
+        //if (this.data.aidrive){
             this.turn();
-            // if (this.data.flee){
-            //     this.rig.rotation.y+=180;
-            // }
-        }
-
+        //}
+        let flep=1;
+        if (this.data.flee) flep=-1;
         this.rig.position.x += 
-                Math.sin(this.rig.rotation.y)*this.data.speed * delta;
+                flep*Math.sin(this.rig.rotation.y+this.data.adjustY)*this.data.speed * delta;
             this.rig.position.z += 
-                Math.cos(this.rig.rotation.y)*this.data.speed * delta;
-
-        /*
-        if (this.data.flee){
-            this.rig.position.x += 
-                Math.sin(this.rig.rotation.y)*this.data.speed * delta;
-            this.rig.position.z += 
-                Math.cos(this.rig.rotation.y)*this.data.speed * delta;
-        } else {
-            this.rig.position.x += 
-                Math.sin(this.rig.rotation.y)*this.data.speed * delta;
-            this.rig.position.z += 
-                Math.cos(this.rig.rotation.y)*this.data.speed * delta;
-        }
-        */
+                flep*Math.cos(this.rig.rotation.y+this.data.adjustY)*this.data.speed * delta;
 
         if (!this.data.wiggle) return;
         // Wiggle?
