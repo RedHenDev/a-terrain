@@ -221,9 +221,9 @@ AFRAME.registerComponent('terrain-generator', {
         this.generateChunk(-99,999);
         // Chunksize default 88.
         // 204.
-        this.chunkSize=128;
+        this.chunkSize=64;
         // Default number of chunks to gen in one go is 1, not 3.
-        this.chunksToGen=2;
+        this.chunksToGen=3;
 
         // Move player slightly to trigger generation of surrounding
         // terrain chunks.

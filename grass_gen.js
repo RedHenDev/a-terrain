@@ -2,8 +2,8 @@ AFRAME.registerComponent('terrain-grass-generator', {
     dependencies: ['terrain-generator'],
 
     schema: {
-        count: { type: 'number', default: 888 },
-        range: { type: 'number', default: 128 },
+        count: { type: 'number', default: 12 },
+        range: { type: 'number', default: 64 },
         bladeWidth: { type: 'number', default: 0.2 },
         minHeight: { type: 'number', default: 4 },
         bladeHeight: { type: 'number', default: 2 },

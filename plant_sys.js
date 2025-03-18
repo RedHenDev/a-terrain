@@ -1,7 +1,7 @@
 AFRAME.registerComponent('plant-system', {
     schema: {
-        count: { type: 'number', default: 512 },
-        range: { type: 'number', default: 88 },
+        count: { type: 'number', default: 12 },
+        range: { type: 'number', default: 64 },
         minHeight: { type: 'number', default: 0.5 },
         maxHeight: { type: 'number', default: 2 },
         windStrength: { type: 'number', default: 0.2 },

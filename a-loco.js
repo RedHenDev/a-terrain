@@ -9,7 +9,7 @@ AFRAME.registerComponent('terrain-movement', {
         this.targetY = 0;
 
         // Experiment. Monty the armadillo.
-        this.monty=document.querySelector("#monty").object3D;
+        //this.monty=document.querySelector("#monty").object3D;
 
         // Quest management.
         /*
