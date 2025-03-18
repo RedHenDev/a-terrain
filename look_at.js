@@ -15,8 +15,9 @@ AFRAME.registerComponent('look-at', {
     },
 
     tick: function(delta){
-        delta *= 0.001;
         if (!delta) return;
+        delta *= 0.001;
+        
 
         // Create a direction vector from object to target
         const direction = new THREE.Vector3();

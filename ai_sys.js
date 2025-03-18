@@ -5,7 +5,7 @@ AFRAME.registerComponent('ai-locomotion', {
         wiggle: {type: 'boolean', default: true},
         flee: {type: 'boolean', default: true},
         target: {type: 'string', default: '#player'},
-        aidrive: {type: 'boolean', default: false},
+        aidrive: {type: 'boolean', default: true},
         targetID: {type: 'string', default: '#player'},
         rSpeed: {type: 'number', default: 1},
         clampY: {type: 'boolean', default: true}
@@ -25,7 +25,31 @@ AFRAME.registerComponent('ai-locomotion', {
     },
 
     turn: function() {
-        this.rig.lookAt(this.target.position);
+        //this.rig.lookAt(this.target.position);
+        // Create a direction vector from object to target
+        const direction = new THREE.Vector3();
+        direction.subVectors(this.target.position, 
+            this.object.position).normalize();
+
+        // First, get the angle in the XZ plane (yaw).
+        let fleep=0;
+        if (this.data.flee) fleep = 180;
+        const yaw = Math.atan2(direction.x, direction.z) + fleep;
+
+        // Then get the angle from the ground plane (pitch).
+        const pitch = Math.atan2(direction.y, Math.sqrt(direction.x * direction.x + direction.z * direction.z));
+
+        // Apply the rotations.
+        // Are we only rotating Y axis?
+        if (this.data.clampY){
+            this.object.rotation.set(0, yaw * this.data.rSpeed, 0);
+        }
+        else {
+            // Then get the angle from the ground plane (pitch).
+            const pitch = Math.atan2(direction.y, 
+                Math.sqrt(direction.x * direction.x + direction.z * direction.z));
+            this.object.rotation.set(-pitch * this.data.rSpeed, yaw * this.data.rSpeed, 0);
+            }
     },
 
     tick: function(time, delta) {
@@ -34,7 +58,7 @@ AFRAME.registerComponent('ai-locomotion', {
         delta = delta * 0.001; // Convert to seconds.
         
         // Experiment. Can we move the armadillo?
-        const radCon = Math.PI / 180;
+        //const radCon = Math.PI / 180;
         
         const mx = this.rig.position.x;
         const mz = this.rig.position.z;
@@ -43,9 +67,9 @@ AFRAME.registerComponent('ai-locomotion', {
 
         if (this.data.aidrive){
             this.turn();
-            if (this.data.flee){
-                this.rig.rotation.y+=180;
-            }
+            // if (this.data.flee){
+            //     this.rig.rotation.y+=180;
+            // }
         }
 
         this.rig.position.x += 
