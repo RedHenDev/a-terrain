@@ -1,6 +1,6 @@
 // Game configuration.
 const config = {
-    websocketUrl: 'wss://weeble-server.glitch.me/',
+    websocketUrl: 'wss://slime-server-vibe.glitch.me/',
     playerColors: ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'cyan', 'magenta']
 };
 
