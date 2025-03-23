@@ -1,6 +1,6 @@
 // Procedural terrain generation.
 //let ws=prompt('Type a word or phrase to generate\n a new terrain.');
-let ws='jojo';
+let ws='1';
 const worldSeed = getSeed(ws);
 
 function getSeed(seedWord){
@@ -85,25 +85,6 @@ const noise = {
     }
 };
 
-/*
-// Auxiliary function to get terrain height at any point.
-function getTerrainHeight(x, z) {
-    const xCoord = x * 0.05;
-    const zCoord = z * 0.05;
-    
-    let height = 0;
-    height += noise.noise(xCoord * 1, 0, zCoord * 1) * 10;
-    height += noise.noise(xCoord * 2, 0, zCoord * 2) * 5;
-    height += noise.noise(xCoord * 4, 0, zCoord * 4) * 2.5;
-    
-    // Rare mountains.
-    if (noise.noise(xCoord * 0.5, 0, zCoord * 0.5) > 0.5) {
-        height *= 5;
-    }
-    
-    return height;
-}*/
-
 function getTerrainHeight(x, z) {
     // Default 0.05.
     const xCoord = x * 0.05;  // Base frequency - try 0.03 for wider features or 0.08 for tighter.
@@ -180,17 +161,18 @@ function getTerrainHeight(x, z) {
 
 function getTerrainColor(height) {
 
-    if (worldSeed!=1){
+    //if (worldSeed!=1){
     // Grassy height-based colouring.
-    if (height < -11.5) return '#002222';
-    if (height < 0) return '#002200';     
-    if (height < 5) return '#002900';     
-    if (height < 10) return '#003000';    
-    if (height < 30) return '#003800';    
-    if (height < 50) return '#004400';    
+    if (height < -11.5) return '#000F00';
+    if (height < 0) return '#003200';     
+    if (height < 5) return '#003900';     
+    if (height < 10) return '#004400';    
+    if (height < 30) return '#005800';    
+    if (height < 50) return '#006500';    
     if (height < 70) return '#6B776B';    
     return '#FFFFFF';
-    }
+    //}
+    /*
     else if (worldSeed===1){
     // Snowy appearance.
     if (height < -11.5) return '#002222';
@@ -202,6 +184,7 @@ function getTerrainColor(height) {
     if (height < 70) return '#FFFFFF';    // Mountain
     return '#FFFFFF';                     // Snow peaks
     }
+    */
 }
 
 // Terrain generator component.
@@ -219,8 +202,8 @@ AFRAME.registerComponent('terrain-generator', {
         // Start at -99,999 not 0,0, else gap behind subject.
         //this.worldSeed = this.hashseed(worldName);
         this.generateChunk(-99,999);
-        // Chunksize default 88.
-        // 204.
+        // Chunksize default 64.
+        // 4 of them.
         this.chunkSize=64;
         // Default number of chunks to gen in one go is 1, not 3.
         this.chunksToGen=3;
