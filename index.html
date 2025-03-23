@@ -11,7 +11,7 @@
     <script src="ai_sys.js"></script>
     <script src="ai_sys_legacy.js"></script>
     <!-- NPC Manager -->
-    <script src="npc-manager.js"></script>
+    <!-- <script src="npc-manager.js"></script> -->
     <!-- Pointer lock controls for free look -->
     <script src="free-controls.js"></script>
     <script src="game.js"></script>
@@ -76,7 +76,7 @@
     </style>
 </head>
 <body>
-    <a target="_blank" href="https://jam.pieter.com" style="font-family: 'system-ui', sans-serif; position: fixed; bottom: -1px; left: -1px; padding: 7px; font-size: 14px; font-weight: bold; background: #fff; color: #000; text-decoration: none; z-index: 10; border-top-left-radius: 12px; z-index: 10000; border: 1px solid #fff;">🕹️ Vibe Jam 2025</a>
+    <!-- <a target="_blank" href="https://jam.pieter.com" style="font-family: 'system-ui', sans-serif; position: fixed; bottom: -1px; left: -1px; padding: 7px; font-size: 14px; font-weight: bold; background: #fff; color: #000; text-decoration: none; z-index: 10; border-top-left-radius: 12px; z-index: 10000; border: 1px solid #fff;">🕹️ Vibe Jam 2025</a> -->
     <div id="connection-status">Connection status: Disconnected</div>
     <div id="npc-stats">
         <div class="stat-row">
@@ -102,10 +102,21 @@
         <script src="thalassa.js"></script>
         <a-assets>
         <!-- Preload our assets. -->
-        <a-asset-item id="mGlasst" src="./assets/glasst.glb"></a-asset-item>
-        <a-asset-item id="mCublit" src="./assets/cublit.glb"></a-asset-item>
+        <!-- <a-asset-item id="mGlasst" src="./assets/glasst.glb"></a-asset-item> -->
+        <!-- <a-asset-item id="mCublit" src="./assets/cublit.glb"></a-asset-item> -->
         <a-asset-item id="mRocks" src="./assets/rocks.glb"></a-asset-item>
     
+        <!-- From previous version -->
+        <a-asset-item id="grave-digger" src="./assets/graveDigger.obj"></a-asset-item>
+        
+            <img crossorigin="anonymous" id="iJoDraw" src="./assets/drawing_1.jpg"></img>
+
+            <!-- <a-asset-item id="iArm" src="./assets/armadillo.png"></a-asset-item> -->
+            <a-asset-item id="mArm" src="./assets/snowdillo.gltf"></a-asset-item>
+            <!-- <a-asset-item id="mSni" src="./assets/sniffler2.obj"></a-asset-item> -->
+            <a-asset-item id="mGhast" src="./assets/ghast_white.gltf"></a-asset-item>
+            <a-asset-item id="mEnder" src="./assets/ender.gltf"></a-asset-item>
+            <a-asset-item id="mMud" src="./assets/texTruck.glb"></a-asset-item>
     </a-assets>
 
         <!-- Player with terrain locomotion system -->
@@ -165,37 +176,99 @@
         
         <!-- Terrain generation -->
         <a-entity terrain-generator></a-entity>
-
-        <!-- Your original glasst NPC - can leave for reference -->
-        <a-entity gltf-model="#mGlasst"
-            id="glasst"
-            scale="8 8 8"     
-            position="123 16 -20"
-            ai-loco-legacy="height:12;speed:0.7;targetID:#player;
-            rSpeed:0.9;clampY:false" 
-        ></a-entity>
         
         <!-- NPC container, managed by NPC Manager -->
         <a-entity id="npcs"></a-entity>
         
         <!-- NPC Manager entity -->
-        <a-entity 
+        
+        <!-- <a-entity 
             id="npc-manager-entity" 
             npc-manager="
-            maxNPCs: 12;
-            poolSize: 32;">
-        </a-entity>
+            maxNPCs: 0;
+            poolSize: 0;">
+        </a-entity> -->
+        
         
         <!-- HUD for displaying info (needed by a-loco.js) -->
         <!-- <a-entity id="hud" position="0 999 0"></a-entity> -->
         <!-- HUD interactions for settings. NB before a-loco. -->
         <script src="HUD_menu.js"></script>
+    
+        <!-- mobs! -->
+    <a-entity   gltf-model="#mGhast"
+    id="ghast"
+    scale="4 4 4"     
+    position="0 16 -20"
+    ai-loco-legacy="height:12;speed:0.7;targetID:#player;
+    rSpeed:0.9;"    
+    >
+    </a-entity>
+
+    <a-gltf-model   id="monty"
+                    src="#mArm" scale="3 3 3" 
+                    color="#D0A" 
+                    position="100 12 -18"
+                    ai-loco-legacy="targetID:#player;rSpeed:0.8"
+                    >
+    </a-gltf-model>
+    <a-gltf-model   id="baby"
+                    src="#mArm" scale="1 1 1" 
+                    color="#803" 
+                    position="100 12 -6"
+                    ai-loco-legacy="height:0.3;speed:0.3;
+                    flee:false;targetID:#monty"
+                    >
+    </a-gltf-model>
+    <a-gltf-model   id="baby2"
+                    src="#mArm" scale="0.6 0.6 0.6" 
+                    color="#0CC" 
+                    position="-6 12 6"
+                    ai-loco-legacy="height:0.1;speed:0.45;
+                    targetID:#player; rSpeed:0.8;flee:true;adjustY:3.14;"
+                    >
+    </a-gltf-model>
+
+    <a-gltf-model   id="ender"
+                    src="#mEnder" scale="1 1 1" 
+                    color="#000" 
+                    position="-6 80 6"
+                    ai-loco-legacy="height:80;speed:0.45;targetID:#player;rSpeed:0.8;flee:true;"
+                    >
+    </a-gltf-model>
+
+    <a-entity   gltf-model="#mMud"
+                id="spider-truck"
+                scale="4 4 4"     
+                position="0 64 -20"
+                >
+    </a-entity>
+
+    <!-- A Monster Truck! -->
+    <!-- Giant -->
+    <!-- <a-obj-model src="#grave-digger" scale="3 3 3" color="pink" -->
+    <!-- ></a-obj-model> -->
+    <a-obj-model src="#grave-digger" position ="64 1.8 -42" scale="0.03 0.03 0.03" color="white"
+    ai-loco-legacy="height:1.2;speed:1;wiggle:false;
+    flee:true;targetID:#player;adjustY:1.57"
+    >
+
+    </a-obj-model>
+
+    <a-plane    src="#iJoDraw" 
+                position="0 12 -420" 
+                scale="40 40 0"
+                material="side: double"></a-plane>
+        
+    <!-- Lighting -->
+    <!-- So that image boards are visible and not just black. -->
+    <a-light type="ambient" color="#888" intensity="1.0"></a-light> 
         
     </a-scene>
     
     <!-- Movement system -->
     <script src="a-loco.js"></script>
-    
+
     <!-- Add keyboard listener for toggling NPC stats display -->
     <script>
         // Keyboard shortcuts
@@ -262,6 +335,7 @@
                 }
         });
     </script>
+    
     <script src="welcome-message.js"></script>
     <script src="menu-button.js"></script>
     

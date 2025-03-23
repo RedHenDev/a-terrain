@@ -36,17 +36,13 @@ document.addEventListener('DOMContentLoaded', () => {
     init: function() {
       // Define your music tracks - update these paths to match your actual files
       this.tracks = [
-        './assets/pixel_wonder.mp3',
-        './assets/shadows_of_the_system.mp3',
-        './assets/eigengrau_light.mp3'
+        './assets/pixel_play.mp3'
         // Add all your tracks here
       ];
       
       // Track names for display
       this.trackNames = [
-        'Ambient Theme 1',
-        'Exploration Theme',
-        'Mystery Theme'
+        'Pixel Play - by Suno'
         // Add names corresponding to your tracks
       ];
       

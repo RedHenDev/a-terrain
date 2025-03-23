@@ -1,6 +1,6 @@
 // Procedural terrain generation.
 //let ws=prompt('Type a word or phrase to generate\n a new terrain.');
-let ws='1';
+let ws='jojo';
 const worldSeed = getSeed(ws);
 
 function getSeed(seedWord){

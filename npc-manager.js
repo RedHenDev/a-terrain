@@ -1,8 +1,8 @@
 // NPC Manager System with Object Pooling
 AFRAME.registerSystem('npc-manager', {
     schema: {
-      maxNPCs: {type: 'number', default: 12}, // Maximum number of NPCs to spawn
-      poolSize: {type: 'number', default: 12}, // Size of the NPC pool (should be >= maxNPCs)
+      maxNPCs: {type: 'number', default: 0}, // Maximum number of NPCs to spawn
+      poolSize: {type: 'number', default: 0}, // Size of the NPC pool (should be >= maxNPCs)
       spawnRadius: {type: 'number', default: 360}, // Radius within which to spawn NPCs
       activationDistance: {type: 'number', default: 120}, // Distance at which NPCs become active
       performanceMode: {type: 'boolean', default: true} // Enable performance optimization
@@ -46,7 +46,7 @@ AFRAME.registerSystem('npc-manager', {
       // Define different types of NPCs
       this.npcTypes = {
         'glasst': {
-          model: '#mGlasst',
+          model: '#mGhast',
           scale: '1 1 1',
           height: 12,
           speed: 7,
@@ -57,7 +57,7 @@ AFRAME.registerSystem('npc-manager', {
           spawnChance: 0.33 // 100% chance to spawn this type
         },
         'runner': {
-          model: '#mCublit', // Different model!
+          model: '#mArm', // Different model!
           scale: '32 32 32',
           height: 64,
           speed: 1.2,
@@ -68,7 +68,7 @@ AFRAME.registerSystem('npc-manager', {
           spawnChance: 0.33 // 0% chance to spawn this type
         },
         'fleer': {
-          model: '#mGlasst', // Same model but flees from player
+          model: '#mEnder', // Same model but flees from player
           scale: '7 7 7',
           height: 6,
           speed: 0.8,

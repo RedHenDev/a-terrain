@@ -22,7 +22,7 @@ AFRAME.registerComponent('grass-system', {
       updateThreshold: { type: 'number', default: 32 },      // Distance player must move to trigger update
       minHeight: { type: 'number', default: 1.0 },           // Minimum grass height
       maxHeight: { type: 'number', default: 2.5 },           // Maximum grass height
-      baseColor: { type: 'color', default: '#16161D' },      // Base grass color
+      baseColor: { type: 'color', default: '#00CD00' },      // Base grass color
       chunksPerFrame: { type: 'number', default: 2 },        // Chunks to generate per frame
       colorVariation: { type: 'number', default: 0.2 }       // Color variation amount (0-1)
     },
@@ -119,7 +119,7 @@ AFRAME.registerComponent('grass-system', {
       // If there are no chunks to process, stop
       if (this.chunkQueue.length === 0) {
         this.isProcessingQueue = false;
-        console.log('Finished loading all grass chunks');
+        //console.log('Finished loading all grass chunks');
         return;
       }
       
