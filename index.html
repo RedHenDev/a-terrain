@@ -11,7 +11,7 @@
     <script src="ai_sys.js"></script>
     <script src="ai_sys_legacy.js"></script>
     <!-- NPC Manager -->
-    <!-- <script src="npc-manager.js"></script> -->
+    <script src="npc-manager.js"></script>
     <!-- Pointer lock controls for free look -->
     <script src="free-controls.js"></script>
     <script src="game.js"></script>
@@ -115,6 +115,8 @@
             <a-asset-item id="mArm" src="./assets/snowdillo.gltf"></a-asset-item>
             <!-- <a-asset-item id="mSni" src="./assets/sniffler2.obj"></a-asset-item> -->
             <a-asset-item id="mGhast" src="./assets/ghast_white.gltf"></a-asset-item>
+            <a-asset-item id="mTrike" src="./assets/trike.glb"></a-asset-item>
+            
             <a-asset-item id="mEnder" src="./assets/ender.gltf"></a-asset-item>
             <a-asset-item id="mMud" src="./assets/texTruck.glb"></a-asset-item>
     </a-assets>
@@ -182,12 +184,12 @@
         
         <!-- NPC Manager entity -->
         
-        <!-- <a-entity 
+        <a-entity 
             id="npc-manager-entity" 
             npc-manager="
-            maxNPCs: 0;
-            poolSize: 0;">
-        </a-entity> -->
+            maxNPCs: 12;
+            poolSize: 12;">
+        </a-entity>
         
         
         <!-- HUD for displaying info (needed by a-loco.js) -->
@@ -256,7 +258,7 @@
     </a-obj-model>
 
     <a-plane    src="#iJoDraw" 
-                position="0 12 -420" 
+                position="0 32 -420" 
                 scale="40 40 0"
                 material="side: double"></a-plane>
         

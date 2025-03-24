@@ -1,8 +1,8 @@
 // NPC Manager System with Object Pooling
 AFRAME.registerSystem('npc-manager', {
     schema: {
-      maxNPCs: {type: 'number', default: 0}, // Maximum number of NPCs to spawn
-      poolSize: {type: 'number', default: 0}, // Size of the NPC pool (should be >= maxNPCs)
+      maxNPCs: {type: 'number', default: 12}, // Maximum number of NPCs to spawn
+      poolSize: {type: 'number', default: 12}, // Size of the NPC pool (should be >= maxNPCs)
       spawnRadius: {type: 'number', default: 360}, // Radius within which to spawn NPCs
       activationDistance: {type: 'number', default: 120}, // Distance at which NPCs become active
       performanceMode: {type: 'boolean', default: true} // Enable performance optimization
@@ -68,14 +68,14 @@ AFRAME.registerSystem('npc-manager', {
           spawnChance: 0.33 // 0% chance to spawn this type
         },
         'fleer': {
-          model: '#mEnder', // Same model but flees from player
+          model: '#mTrike', // Same model but flees from player
           scale: '7 7 7',
           height: 6,
           speed: 0.8,
           rSpeed: 1.0,
           clampY: false,
           wiggle: true,
-          flee: true,
+          flee: false,
           spawnChance: 0.33 // 0% chance to spawn this type
         }
       };
