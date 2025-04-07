@@ -70,6 +70,7 @@ AFRAME.registerSystem('npc-manager', {
         'fleer': {
           model: '#mTrike', // Same model but flees from player
           scale: '7 7 7',
+          color: 'black',
           height: 6,
           speed: 0.8,
           rSpeed: 1.0,
@@ -92,6 +93,8 @@ AFRAME.registerSystem('npc-manager', {
         const npcEntity = document.createElement('a-entity');
         npcEntity.setAttribute('gltf-model', npcConfig.model);
         npcEntity.setAttribute('scale', npcConfig.scale);
+        //if(npcType == 'Trike'){
+        //npcEntity.setAttribute('color', npcConfig.color);}
         
         // Position far away initially (will be properly positioned when activated)
         npcEntity.setAttribute('position', '0 -9999 0');
